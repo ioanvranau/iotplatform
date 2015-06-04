@@ -7,6 +7,10 @@
     <groupId>com.platform</groupId>
     <artifactId>iot</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
+    <modules>
+        <module>iot-rest</module>
+    </modules>
 
 </project>
