@@ -1,4 +1,4 @@
-package com.platform;
+package com.platform.entities;
 
 public class Product {
 

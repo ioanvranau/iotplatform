@@ -11,7 +11,7 @@
         <!--<param-name>resteasy.scan</param-name>-->
         <!--<param-value>true</param-value>-->
         <param-name>resteasy.resources</param-name>
-        <param-value>com.platform.JSONService,com.platform.MessageRestService</param-value>
+        <param-value>com.platform.services.JSONService,com.platform.services.MessageRestService</param-value>
     </context-param>
 
     <!-- this need same with resteasy servlet url-pattern -->

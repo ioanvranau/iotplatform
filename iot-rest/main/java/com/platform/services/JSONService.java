@@ -1,8 +1,12 @@
-package com.platform;
+package com.platform.services;
+
+import com.platform.entities.Product;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+@RestController
 @Path("/json/product")
 public class JSONService {
 

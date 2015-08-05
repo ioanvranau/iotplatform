@@ -1,4 +1,4 @@
-package com.platform;
+package com.platform.services;
 
 /**
  * Created by vranau on 6/4/2015.
@@ -20,5 +20,7 @@ public class MessageRestService {
         return Response.status(200).entity(result).build();
 
     }
+
+
 
 }

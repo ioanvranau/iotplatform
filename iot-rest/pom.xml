@@ -15,6 +15,12 @@
     <packaging>war</packaging>
     <name>Looping REST API</name>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <start-class>com.platform.RunApplication</start-class>
+        <java.version>1.8</java.version>
+    </properties>
+
     <repositories>
         <repository>
             <id>JBoss repository</id>
@@ -45,6 +51,26 @@
             <artifactId>resteasy-jackson2-provider</artifactId>
             <version>3.0.11.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+            <version>1.2.1.RELEASE</version>
+        </dependency>
+
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
