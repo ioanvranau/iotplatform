@@ -11,6 +11,7 @@
 
     <modules>
         <module>iot-rest</module>
+        <module>iot-rest-basic-auth</module>
     </modules>
 
 </project>
