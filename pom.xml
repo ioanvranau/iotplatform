@@ -12,7 +12,7 @@
     <modules>
 
         <module>iot-tests</module>
-
+        <module>iot-backend</module>
     </modules>
 
 </project>
