@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>application.log</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <!-- in the absence of the class attribute, it is assumed that the
+       desired discriminator type is
+       ch.qos.logback.classic.sift.MDCBasedDiscriminator -->
+        <discriminator>
+            <key>group</key>
+            <defaultValue>unassigned</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${groupId}" class="ch.qos.logback.core.FileAppender">
+                <file>group-${groupId}.log</file>
+                <append>false</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%d [%thread] %level %mdc %logger{35} - %msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <!-- Limit the org.hibernate category to INFO since logging to DEBUG affects performance badly -->
+    <logger name="org.hibernate" level="ERROR"/>
+
+    <logger name="org.springframework" level="ERROR"/>
+
+    <logger name="org.apache" level="ERROR"/>
+
+    <logger name="io.netty" level="ERROR"/>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="SIFT"/>
+    </root>
+</configuration>

@@ -1,6 +1,5 @@
 package com.platform.iot.bussiness.service;
 
-import com.platform.HttpStreamingApplication;
 import com.platform.iot.bussiness.MemoryStorage;
 import com.platform.iot.bussiness.model.Topic;
 import com.platform.iot.bussiness.model.User;
@@ -8,7 +7,6 @@ import com.platform.iot.message.MessageDispatcher;
 import com.platform.iot.message.client.RegisterMessage;
 import com.platform.iot.message.client.TopicSubscribeMessage;
 import com.platform.iot.message.server.PriceMessage;
-import io.netty.channel.Channel;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 import org.slf4j.Logger;

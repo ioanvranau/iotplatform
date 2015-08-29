@@ -1,6 +1,6 @@
 package com.platform.iot.bussiness.service;
 
-import com.platform.HttpStreamingApplication;
+import com.platform.iot.HttpStreamingApplication;
 import com.platform.iot.bussiness.MemoryStorage;
 import com.platform.iot.bussiness.model.User;
 import com.platform.iot.message.MessageDispatcher;
@@ -9,7 +9,6 @@ import com.platform.iot.message.client.RegisterMessage;
 import com.platform.iot.message.server.TokenMessage;
 import com.platform.iot.service.UserService;
 import io.netty.channel.Channel;
-import org.omg.PortableInterceptor.ACTIVE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

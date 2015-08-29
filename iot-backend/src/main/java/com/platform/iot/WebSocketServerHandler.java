@@ -26,7 +26,6 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * Handles handshakes and messages
  */
 public class WebSocketServerHandler extends ChannelInboundMessageHandlerAdapter<Object> {
-    public static final int SERVER_PORT = 8086;
     private static final Logger logger = LoggerFactory.getLogger(WebSocketServerHandler.class.getName());
 
     private static final String WEBSOCKET_PATH = "/prices";
@@ -128,6 +127,6 @@ public class WebSocketServerHandler extends ChannelInboundMessageHandlerAdapter<
     }
 
     private static String getWebSocketLocation(FullHttpRequest req) {
-        return "ws://localhost:" + WebSocketServer.DEFAULT_PORT + WEBSOCKET_PATH;
+        return "ws://localhost:" + Config.INSTANCE.getServerPort() + WEBSOCKET_PATH;
     }
 }

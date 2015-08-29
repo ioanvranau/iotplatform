@@ -1,4 +1,4 @@
-package com.platform;
+package com.platform.iot;
 
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.*;
@@ -22,7 +22,6 @@ import java.util.Properties;
 @ComponentScan({"com.httpstreaming.api.services", "com.httpstreaming.api.bussiness.model", "com.httpstreaming.api", "com.httpstreaming.api.producer"})
 @PropertySource("classpath:jdbc.properties")
 @EnableJpaRepositories("com.httpstreaming.api.services")
-@ImportResource("classpath:jms-config.xml")
 public class JPAConfig {
     private static final String PROPERTY_DATABASE_DRIVER = "db.driver";
     private static final String PROPERTY_DATABASE_PASSWORD = "db.password";

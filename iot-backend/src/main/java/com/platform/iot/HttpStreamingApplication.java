@@ -1,19 +1,14 @@
-package com.platform;
+package com.platform.iot;
 
-import com.platform.iot.WebSocketServer;
 import com.platform.iot.bussiness.MemoryStorage;
 import com.platform.iot.bussiness.model.Topic;
 import com.platform.iot.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class HttpStreamingApplication {
-
 
 
     public static AnnotationConfigApplicationContext context = null;
@@ -25,26 +20,22 @@ public class HttpStreamingApplication {
     }
 
     // websocket server instance
-    private WebSocketServer webSocketServer = new WebSocketServer(
-            WebSocketServer.DEFAULT_PORT);
+    private static WebSocketServer webSocketServer = new WebSocketServer(
+            Config.INSTANCE.getServerPort());
 
-    private static HttpStreamingApplication runningInstance;
 
     private UserService userService;
 
-    public static HttpStreamingApplication getRunningInstance() {
-        return runningInstance;
+    public static void main(String[] args) {
+        try {
+            initTopics();
+            webSocketServer.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void start() throws Exception {
-        runningInstance = this;
-       initTopics();
-        webSocketServer.run();
-
-
-    }
-
-    public void initTopics(){
+    public static void initTopics() {
         Topic t1 = new Topic("Topic1", 13.45);
         Topic t2 = new Topic("Topic2", 78.46);
         Topic t3 = new Topic("Topic3", 100.89);
