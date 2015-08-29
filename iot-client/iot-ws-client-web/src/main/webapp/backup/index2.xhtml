@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <f:metadata name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Topic Distribution</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <!-- Bootstrap responsive -->
+    <link rel="stylesheet" href="../css/bootstrap-responsive.min.css"/>
+    <!-- icheck -->
+    <link rel="stylesheet" href="../css/plugins/icheck/all.css"/>
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="../css/style.css"/>
+    <!-- Color CSS -->
+
+    <link rel="stylesheet" href="../css/themes.css"/>
+
+
+    <!-- jQuery -->
+
+    <script src="../js/platform/webSocketClient.js"></script>
+
+    <!-- Nice Scroll -->
+    <script src="../js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="../js/plugins/jquery-ui/jquery.ui.core.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery.ui.widget.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery.ui.mouse.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery.ui.draggable.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery.ui.resizable.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery.ui.sortable.min.js"></script>
+    <script src="../js/plugins/sparklines/jquery.sparklines.min.js"></script>
+    <!-- Touch enable for jquery UI -->
+    <script src="../js/plugins/touch-punch/jquery.touch-punch.min.js"></script>
+    <!-- slimScroll -->
+    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- vmap -->
+    <script src="../js/plugins/vmap/jquery.vmap.min.js"></script>
+    <script src="../js/plugins/vmap/jquery.vmap.world.js"></script>
+    <script src="../js/plugins/vmap/jquery.vmap.sampledata.js"></script>
+    <!-- Bootbox -->
+    <script src="../js/plugins/bootbox/jquery.bootbox.js"></script>
+    <!-- Flot -->
+    <script src="../js/plugins/flot/jquery.flot.min.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.bar.order.min.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.pie.min.js"></script>
+    <script src="../js/plugins/flot/jquery.flot.resize.min.js"></script>
+    <!-- imagesLoaded -->
+    <script src="../js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
+    <!-- PageGuide -->
+    <script src="../js/plugins/pageguide/jquery.pageguide.js"></script>
+    <!-- FullCalendar -->
+    <script src="../js/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <!-- Chosen -->
+    <script src="../js/plugins/chosen/chosen.jquery.min.js"></script>
+    <!-- select2 -->
+    <script src="../js/plugins/select2/select2.min.js"></script>
+    <!-- icheck -->
+    <script src="../js/plugins/icheck/jquery.icheck.min.js"></script>
+
+    <!-- Theme framework -->
+    <script src="../js/eakroko.min.js"></script>
+    <!-- Theme scripts -->
+    <script src="../js/application.min.js"></script>
+    <!-- Just for demonstration -->
+    <script src="../js/demonstration.min.js"></script>
+
+    <!--[if lte IE 9]>
+        <script src="js/plugins/placeholder/jquery.placeholder.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('input, textarea').placeholder();
+            });
+        </script>
+    <![endif]-->
+
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+    <!-- Apple devices Homescreen icon -->
+    <link rel="apple-touch-icon-precomposed" href="../img/apple-touch-icon-precomposed.png"/>
+
+</h:head>
+<h:body>
+    <h:form>
+        <div id="navigation">
+            <div class="container-fluid">
+                <a href="#" id="brand">Topic Distribution</a>
+                <ul class='main-nav'>
+                    <li class='active'>
+                        <a href="../index.xhtml">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="user">
+                    <ul class="icon-nav">
+                        <li class="dropdown sett">
+                            <a href="#" class='dropdown-toggle' data-toggle="dropdown"><i class="icon-cog"/></a>
+                            <ul class="dropdown-menu pull-right theme-settings">
+                                <li>
+                                    <span>Layout-width</span>
+
+                                    <div class="version-toggle">
+                                        <a href="#" class='set-fixed'>Fixed</a>
+                                        <a href="#" class="active set-fluid">Fluid</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Topbar</span>
+
+                                    <div class="topbar-toggle">
+                                        <a href="#" class='set-topbar-fixed'>Fixed</a>
+                                        <a href="#" class="active set-topbar-default">Default</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Sidebar</span>
+
+                                    <div class="sidebar-toggle">
+                                        <a href="#" class='set-sidebar-fixed'>Fixed</a>
+                                        <a href="#" class="active set-sidebar-default">Default</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class='dropdown colo'>
+                            <a href="#" class='dropdown-toggle' data-toggle="dropdown"><i class="icon-tint"/></a>
+                            <ul class="dropdown-menu pull-right theme-colors">
+                                <li class="subtitle">
+                                    Predefined colors
+                                </li>
+                                <li>
+                                    <span class='red'></span>
+                                    <span class='orange'></span>
+                                    <span class='green'></span>
+                                    <span class="brown"></span>
+                                    <span class="blue"></span>
+                                    <span class='lime'></span>
+                                    <span class="teal"></span>
+                                    <span class="purple"></span>
+                                    <span class="pink"></span>
+                                    <span class="magenta"></span>
+                                    <span class="grey"></span>
+                                    <span class="darkblue"></span>
+                                    <span class="lightred"></span>
+                                    <span class="lightgrey"></span>
+                                    <span class="satblue"></span>
+                                    <span class="satgreen"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="dropdown">
+                        <a href="#" class='dropdown-toggle' data-toggle="dropdown">#{user.username} <img
+                                src="../img/demo/user-avatar.jpg"
+                                alt=""/></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="../userprofile.html">Edit profile</a>
+                            </li>
+                            <li>
+                                <a href="#">Account settings</a>
+                            </li>
+                            <li>
+                                <a href="../login.xhtml">Sign out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </h:form>
+
+    <div class="container-fluid" id="content">
+        <div id="main">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="pull-left">
+                        <h1>Dashboard</h1>
+                    </div>
+                    <div class="pull-right">
+                        <ul class="stats">
+                            <li class='satgreen'>
+                                <i class="icon-money"/>
+
+                                <div class="details">
+                                    <span class="big">$324,12</span>
+                                    <span>Balance</span>
+                                </div>
+                            </li>
+                            <li class='lightred'>
+                                <i class="icon-calendar"/>
+
+                                <div class="details">
+                                    <span class="big">February 22, 2013</span>
+                                    <span>Wednesday, 13:56</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li>
+                            <a href="../login.xhtml">Home</a>
+                            <i class="icon-angle-right"/>
+                        </li>
+                        <li>
+                            <a href="index.html">Dashboard</a>
+                        </li>
+                    </ul>
+                    <div class="close-bread">
+                        <a href="#"><i class="icon-remove"/></a>
+                    </div>
+                </div>
+                <div class="row-fluid">
+
+                    <div class="span12">
+                        <div class="box">
+                            <div>
+                                <button class="btn" onclick="startListening()">Start Listening</button>
+                            </div>
+                            <div class="box-title">
+                                <h3>
+                                    <i class="icon-table"/>
+                                    Topics table
+                                </h3>
+                            </div>
+                            <div class="box-content nopadding">
+                                <table class="table table-hover table-nomargin">
+                                    <thead>
+                                    <tr>
+                                        <th>Topic</th>
+                                        <th>Price</th>
+                                        <th>Price Chart</th>
+                                        <th>Change</th>
+                                        <th>Subscribe</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody id="userTopics">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <h:form>
+        <p:inputText/>
+        <p:editor value="#{editor.value}"/>
+    </h:form>
+
+
+</h:body>
+</html>

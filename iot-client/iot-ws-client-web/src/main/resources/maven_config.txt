@@ -1,0 +1,28 @@
+c:\Program Files\Apache\apache-maven-3.0.5\conf\settings.xml
+<servers>
+		<server>
+		<id>TomcatServer</id>
+		<username>admin</username>
+		<password>password</password>
+	</server>
+</servers>
+
+C:\xampp\tomcat\conf\tomcat-users.xml
+
+<role rolename="manager-gui"/>
+<role rolename="admin-gui"/>
+<role rolename="admin"/>
+<role rolename="manager-script"/>
+<user username="admin" password="password" roles="manager-gui,admin-gui,admin,manager-script"/>
+
+C:\xampp\tomcat\conf\context.xml
+change <Context> to
+<Context antiJARLocking="true" antiResourceLocking="true">
+
+restart tomcat
+
+mvn tomcat:undeploy tomcat:deploy
+
+http://localhost:8080/stockmarket/index.html
+http://localhost:8080/stockmarket/login.html
+http://localhost:8080/stockmarket/index.jsf

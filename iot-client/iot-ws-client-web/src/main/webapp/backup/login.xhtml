@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+        >
+
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!-- Apple devices fullscreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- Apple devices fullscreen -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <title>Login</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <!-- Bootstrap responsive -->
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <!-- icheck -->
+    <link rel="stylesheet" href="css/plugins/icheck/all.css"/>
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <!-- Color CSS -->
+
+    <link rel="stylesheet" href="css/themes.css"/>
+
+
+    <!-- jQuery -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        function initializeComponent(){
+            //window["register"]();
+        }
+    </script>
+    <script src="js/platform/webSocketClient.js"></script>
+
+    <!-- Nice Scroll -->
+    <script src="js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="js/plugins/jquery-ui/jquery.ui.core.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery.ui.widget.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery.ui.mouse.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery.ui.draggable.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery.ui.resizable.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery.ui.sortable.min.js"></script>
+    <script src="js/plugins/sparklines/jquery.sparklines.min.js"></script>
+    <!-- Touch enable for jquery UI -->
+    <script src="js/plugins/touch-punch/jquery.touch-punch.min.js"></script>
+    <!-- slimScroll -->
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- vmap -->
+    <script src="js/plugins/vmap/jquery.vmap.min.js"></script>
+    <script src="js/plugins/vmap/jquery.vmap.world.js"></script>
+    <script src="js/plugins/vmap/jquery.vmap.sampledata.js"></script>
+    <!-- Bootbox -->
+    <script src="js/plugins/bootbox/jquery.bootbox.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.bar.order.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.min.js"></script>
+    <!-- imagesLoaded -->
+    <script src="js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
+    <!-- PageGuide -->
+    <script src="js/plugins/pageguide/jquery.pageguide.js"></script>
+    <!-- FullCalendar -->
+    <script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <!-- Chosen -->
+    <script src="js/plugins/chosen/chosen.jquery.min.js"></script>
+    <!-- select2 -->
+    <script src="js/plugins/select2/select2.min.js"></script>
+    <!-- icheck -->
+    <script src="js/plugins/icheck/jquery.icheck.min.js"></script>
+
+    <!-- Theme framework -->
+    <script src="js/eakroko.min.js"></script>
+    <!-- Theme scripts -->
+    <script src="js/application.min.js"></script>
+    <!-- Just for demonstration -->
+    <script src="js/demonstration.min.js"></script>
+
+    <!--[if lte IE 9]>
+        <script src="js/plugins/placeholder/jquery.placeholder.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('input, textarea').placeholder();
+            });
+        </script>
+    <![endif]-->
+
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <!-- Apple devices Homescreen icon -->
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
+</h:head>
+
+<h:body class='login'>
+    <div class="wrapper">
+        <h:form>
+        <h1><a href="index.xhtml"><img src="img/logo-big.png" alt="" class='retina-ready' width="59"
+                                      height="49"/>Login</a></h1>
+        </h:form>
+        <div class="login-body">
+            <h2>SIGN IN</h2>
+
+            <form action="index.xhtml" method='get' class='form-validate' id="test">
+                <div class="control-group">
+                    <div class="email controls">
+                        <input type="text" id="usernameInputTextId" name='"usernameInputTextId"' placeholder="Username" class='input-block-level'
+                               data-rule-required="true" data-rule-email="true"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="pw controls">
+                        <input type="password" id="passwordInputTextId" name="upw" placeholder="Password" class='input-block-level'
+                               data-rule-required="true"/>
+                    </div>
+                </div>
+                <div class="submit">
+                    <div class="remember">
+                        <input type="checkbox" name="remember" class='icheck-me' data-skin="square" data-color="blue"
+                               id="remember"/> <label for="remember">Remember me</label>
+                    </div>
+                    <input type="button" value="Sign me in" class='btn btn-primary' onclick="javascript: register()"/>
+                </div>
+            </form>
+            <div class="forget">
+                <a href="#"><span>Forgot password?</span></a>
+            </div>
+
+        </div>
+
+    </div>
+</h:body>
+
+</html>
