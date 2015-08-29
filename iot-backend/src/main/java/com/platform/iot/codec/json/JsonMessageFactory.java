@@ -2,9 +2,7 @@ package com.platform.iot.codec.json;
 
 import com.platform.iot.codec.MessageFactory;
 import com.platform.iot.message.Message;
-import com.platform.iot.message.client.ClientMessage;
-import com.platform.iot.message.client.LoginMessage;
-import com.platform.iot.message.client.RegisterMessage;
+import com.platform.iot.message.client.*;
 import com.platform.iot.message.server.ServerMessage;
 import io.netty.handler.codec.DecoderException;
 import net.sf.json.JSONObject;
@@ -37,6 +35,15 @@ public class JsonMessageFactory implements MessageFactory {
 
         } else if (type.equals(ClientMessage.MESSAGE.LOGIN)) {
             message = new LoginMessage();
+
+        } else if (type.equals(ClientMessage.MESSAGE.START_LISTENING)) {
+            message = new StartListeningMessage(jsonObject);
+
+        } else if (type.equals(ClientMessage.MESSAGE.TOPICS)) {
+            message = new TopicsMessage(jsonObject);
+
+        }  else if (type.equals(ClientMessage.MESSAGE.TOPIC_SUBSCRIBE)) {
+            message = new TopicSubscribeMessage(jsonObject);
 
         } else {
             throw new DecoderException(String.format("Could not identify client " +
