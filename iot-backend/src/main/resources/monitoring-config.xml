@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/context
+		      http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:component-scan base-package="com.platform.iot.api.monitoring"/>
+
+    <bean id="mbeanServer" class="java.lang.management.ManagementFactory" factory-method="getPlatformMBeanServer"/>
+    <bean id="simpleJmxExporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
+        <property name="server" ref="mbeanServer"/>
+        <property name="beans">
+            <map>
+            </map>
+        </property>
+        <property name="namingStrategy">
+            <bean class="org.springframework.jmx.export.naming.KeyNamingStrategy"/>
+        </property>
+        <property name="registrationBehaviorName" value="REGISTRATION_REPLACE_EXISTING"/>
+    </bean>
+
+    <bean id="serverMonitor" class="com.platform.iot.api.monitoring.ServerMonitor" lazy-init="false" scope="singleton"></bean>
+    <!--<bean id="userMonitor" class="com.platform.api.monitoring.UserMonitor" lazy-init="false" scope="prototype"></bean>-->
+    <!--<bean id="powerUpMonitor" class="touchspin.monitoring.PowerUpMonitor" lazy-init="false" scope="singleton"></bean>-->
+    <!--<bean id="achievementMonitor" class="touchspin.monitoring.AchievementMonitor" lazy-init="false"-->
+          <!--scope="singleton"></bean>-->
+    <!--<bean id="bonusGameMonitor" class="touchspin.monitoring.BonusGameMonitor" lazy-init="false"-->
+          <!--scope="singleton"></bean>-->
+    <!--<bean id="dailyGiveawayMonitor" class="touchspin.monitoring.DailyGiveawayMonitor" lazy-init="false"-->
+          <!--scope="singleton"></bean>-->
+    <!--<bean id="tableMatchingMonitor" class="touchspin.monitoring.TableMatchingMonitor" lazy-init="false"-->
+          <!--scope="singleton"></bean>-->
+
+</beans>
