@@ -16,6 +16,7 @@
 
     <modules>
         <module>iot-ws-client-java</module>
+        <module>iot-ws-client-android</module>
         <module>iot-ws-client-web</module>
     </modules>
     
