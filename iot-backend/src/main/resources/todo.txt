@@ -1,0 +1,8 @@
+add login by username and password
+send /receive messages from java client to server
+admin users - show all users
+basic users... send/retreive some data. Dummy data anything that a user can send.
+
+other messages send/receive for android client
+- some data from android - accelerometer information
+- some data to android - some data when something will happen.
