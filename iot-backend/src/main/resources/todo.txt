@@ -1,3 +1,5 @@
+decouple the java client to be a separate module.
+
 add login by username and password
 send /receive messages from java client to server
 admin users - show all users
