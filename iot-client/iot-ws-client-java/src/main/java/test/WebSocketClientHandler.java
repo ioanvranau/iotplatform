@@ -94,8 +94,9 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
         WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-            handleText(ctx.channel(), textFrame.text());
             System.out.println("WebSocket Client received : " + textFrame.text());
+            System.out.println();
+            handleText(ctx.channel(), textFrame.text());
         } else if (frame instanceof PongWebSocketFrame) {
             System.out.println("WebSocket Client received pong");
         } else if (frame instanceof CloseWebSocketFrame) {
@@ -119,7 +120,7 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
 
 
     private void handleText(Channel channel, String json) throws Exception {
-        logger.info("Received " + json);
+//        logger.info("Received " + json);
 
         JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(json);
         String type;
@@ -130,9 +131,13 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
 
         } else if (type.equals("token")) {
             token = jsonObject.getString("token");
-            subscriebeToTopics(channel);
-            getTopicList(channel);
-            startListentingToChanges(channel);
+            updateUserProfile(channel, "magdaNewName", "magdaNewPass", "magdaNewEmail@gmail.com", "Germany");
+//            subscriebeToTopics(channel);
+//            getTopicList(channel);
+//            startListentingToChanges(channel);
+        }
+        else if (type.equals("updateUserProfile")) {
+            getAllUsers(channel);
         }
     }
 
@@ -150,6 +155,13 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
         channel.write(print("{type:'startListening', token:'" + token + "'}"));
     }
 
+    private void updateUserProfile(Channel channel, String name, String password, String email, String country) {
+        channel.write(print("{type:'updateUserProfile', token:'" + token + "', name:'" + name + "', password:'" + password + "', email:'" + email + "', country:'" + country + "'}"));
+    }
+
+    private void getAllUsers(Channel channel) {
+        channel.write(print("{type:'allUsers', token:'" + token + "'}"));
+    }
 
 
     private TextWebSocketFrame print(String message) {

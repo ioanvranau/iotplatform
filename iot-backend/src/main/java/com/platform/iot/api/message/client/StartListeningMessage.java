@@ -12,6 +12,12 @@ public class StartListeningMessage extends ClientMessage {
         if (object.optString("token") != null){
             setToken(object.optString("token"));
         }
-
     }
-  }
+
+    @Override
+    public String toString() {
+        return "StartListeningMessage{" +
+                "token='" + super.getToken() + "\'}";
+    }
+
+}

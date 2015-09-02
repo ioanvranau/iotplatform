@@ -1,6 +1,5 @@
 package com.platform.iot.api.message;
 
-import com.platform.iot.api.TopicDistributionApplication;
 import com.platform.iot.api.bussiness.MemoryStorage;
 import com.platform.iot.api.bussiness.model.User;
 import com.platform.iot.api.bussiness.service.ServiceManager;
@@ -11,7 +10,6 @@ import com.platform.iot.api.message.server.EmailNotificationMessage;
 import com.platform.iot.api.message.server.ErrorMessage;
 import com.platform.iot.api.message.server.TopicsMessage;
 import com.platform.iot.api.message.server.UserProfileMessage;
-import com.platform.iot.producer.TopicPublisher;
 import io.netty.channel.Channel;
 
 
@@ -37,6 +35,7 @@ public class MessageForwarder {
                 ServiceManager.INSTANCE.getAccountService().login(channel, loginMessage);
             }
             break;
+
             case ClientMessage.MESSAGE.LOGOUT: {
                 LogoutMessage logoutMessage = (LogoutMessage) message;
                 ServiceManager.INSTANCE.getAccountService().logout(channel, logoutMessage);
@@ -45,6 +44,11 @@ public class MessageForwarder {
             case ClientMessage.MESSAGE.LOCK: {
                 LockMessage lockMessage = (LockMessage) message;
                 ServiceManager.INSTANCE.getAccountService().lock(channel, lockMessage);
+            }
+            break;
+            case ClientMessage.MESSAGE.ALL_USERS: {
+                AllUsersMessage allUsersMessage = (AllUsersMessage) message;
+                ServiceManager.INSTANCE.getAccountService().getAllUsers(channel, allUsersMessage);
             }
             break;
             case ClientMessage.MESSAGE.START_LISTENING: {

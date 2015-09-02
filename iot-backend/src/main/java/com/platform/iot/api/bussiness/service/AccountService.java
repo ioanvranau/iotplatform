@@ -8,8 +8,14 @@ import com.platform.iot.api.exception.ApplicationException;
 import com.platform.iot.api.exception.ExceptionType;
 import com.platform.iot.api.message.MessageDispatcher;
 import com.platform.iot.api.message.client.*;
-import com.platform.iot.api.message.server.ErrorMessage;
-import com.platform.iot.api.message.server.TokenMessage;
+import com.platform.iot.api.message.client.AllUsersMessage;
+import com.platform.iot.api.message.client.DisableAccountMessage;
+import com.platform.iot.api.message.client.LockMessage;
+import com.platform.iot.api.message.client.LogoutMessage;
+import com.platform.iot.api.message.client.MigrationMessage;
+import com.platform.iot.api.message.client.RegisterMessage;
+import com.platform.iot.api.message.client.UpdateUserProfileMessage;
+import com.platform.iot.api.message.server.*;
 import com.platform.iot.api.monitoring.MonitoringServiceLocator;
 import com.platform.iot.api.monitoring.ServerMonitor;
 import com.platform.iot.api.storage.UserService;
@@ -48,6 +54,7 @@ public class AccountService {
         user.setPassword(registerMessage.getPassword());
         user.setEmail(registerMessage.getEmail());
         user.setToken(generateToken(registerMessage.getUsername()));
+        user.setUsertype(registerMessage.getUserType());
         MemoryStorage.INSTANCE.getUsers().put(user.getToken(), user);
         user.setTopicsChannel(channel);
         user.setProducerId(TopicDistributionApplication.DEFAULT_PRODUCER_ID);
@@ -119,7 +126,7 @@ public class AccountService {
         serverMonitor.updateMonitor();
     }
 
-    public String generateToken(String seed) {
+    public static String generateToken(String seed) {
         MessageDigest m = null;
         try {
             m = MessageDigest.getInstance("MD5");
@@ -169,6 +176,16 @@ public class AccountService {
         }
     }
 
+    public void getAllUsers(Channel channel, AllUsersMessage allUsersMessage) {
+        UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
+        List<User> allUsers = userService.findAll();
+        User user = MemoryStorage.INSTANCE.getUserByToken(allUsersMessage.getToken());
+//        if(user.getUsertype() == User.UserType.ADMIN) {
+            MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.AllUsersMessage(allUsers));
+//        }
+
+    }
+
     public void disableAccount(Channel channel, DisableAccountMessage disableAccountMessage) {
         UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
         User user = MemoryStorage.INSTANCE.getUserByToken(disableAccountMessage.getToken());
@@ -187,4 +204,5 @@ public class AccountService {
             logger.error("Cannot find user in memory");
         }
     }
+
 }

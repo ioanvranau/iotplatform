@@ -18,8 +18,14 @@ import java.util.List;
 @Entity
 @javax.persistence.Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "token"})})
 public class User implements Serializable {
+    public static final String FIELD_ID = "id";
     public static final String FIELD_TOKEN = "token";
     public static final String FIELD_USERNAME = "username";
+    public static final String FIELD_EMAIL = "email";
+    public static final String FIELD_PASSWORD = "password";
+    public static final String FIELD_USER_TYPE = "usertype";
+    public static final String FIELD_COUNTRY = "country";
+    public static final String FIELD_NAME = "name";
 
     public boolean isSubscriebed(Topic topic) {
         for (Topic topic1 : getTopics()) {
@@ -32,6 +38,8 @@ public class User implements Serializable {
 
     public enum Status {ACTIVE, MIGRATION_NOTIFIED, INACTIVE}
 
+    public enum UserType {NORMAL, ADMIN}
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,6 +50,9 @@ public class User implements Serializable {
 
     @Column(name = "password", length = 64, nullable = false)
     private String password;
+
+    @Column(name = "usertype", length = 64, nullable = false)
+    private UserType usertype;
 
     @Column(name = "token", length = 64, nullable = false)
     private String token;
@@ -84,13 +95,33 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String username, String password, String token, String email) {
+    public User(String username, String password, String token, String name, String email, UserType usertype, String country) {
+        this.username = username;
+        this.password = password;
+        this.token = token;
+        this.name = name;
+        this.email = email;
+        this.producerId = TopicDistributionApplication.DEFAULT_PRODUCER_ID;
+        this.usertype = usertype;
+        this.country = country;
+    }
+
+    public User(Long id, String username, String password, String token, String email, UserType usertype) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.token = token;
         this.email = email;
         this.producerId = TopicDistributionApplication.DEFAULT_PRODUCER_ID;
+        this.usertype = usertype;
+    }
+
+    public UserType getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(UserType usertype) {
+        this.usertype = usertype;
     }
 
     public String getName() {
@@ -234,8 +265,12 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", status=" + status +
+                ", password='" + password + '\'' +
+                ", usertype=" + usertype +
                 ", token='" + token + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
                 '}';
     }
 }

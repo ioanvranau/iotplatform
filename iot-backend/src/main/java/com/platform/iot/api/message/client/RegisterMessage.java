@@ -1,5 +1,6 @@
 package com.platform.iot.api.message.client;
 
+import com.platform.iot.api.bussiness.model.User;
 import net.sf.json.JSONObject;
 
 public class RegisterMessage extends ClientMessage {
@@ -10,6 +11,7 @@ public class RegisterMessage extends ClientMessage {
     private String username;
     private String password;
     private String email;
+    private User.UserType userType = User.UserType.NORMAL;
 
     public RegisterMessage(JSONObject jsonObject) {
         try {
@@ -50,12 +52,22 @@ public class RegisterMessage extends ClientMessage {
         this.email = email;
     }
 
+    public User.UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(User.UserType userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "RegisterMessage{" +
-                "username='" + username + '\'' +
+                "token='" + super.getToken() + '\'' +
+                " ,username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", userType=" + userType +
                 '}';
     }
 }

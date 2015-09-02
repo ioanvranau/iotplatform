@@ -37,6 +37,9 @@ public class JsonMessageFactory implements MessageFactory {
         } else if (type.equals(ClientMessage.MESSAGE.LOGIN)) {
             message = new LoginMessage(jsonObject);
 
+        }  else if (type.equals(ClientMessage.MESSAGE.ALL_USERS)) {
+            message = new AllUsersMessage(jsonObject);
+
         } else if (type.equals(ClientMessage.MESSAGE.LOGOUT)) {
             message = new LogoutMessage(jsonObject);
 

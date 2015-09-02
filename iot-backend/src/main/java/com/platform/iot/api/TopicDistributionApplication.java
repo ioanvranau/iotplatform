@@ -5,6 +5,7 @@ import com.platform.iot.api.balancing.Server;
 import com.platform.iot.api.bussiness.MemoryStorage;
 import com.platform.iot.api.bussiness.model.Topic;
 import com.platform.iot.api.bussiness.model.User;
+import com.platform.iot.api.bussiness.service.AccountService;
 import com.platform.iot.api.console.Console;
 import com.platform.iot.api.monitoring.ServerMonitor;
 import com.platform.iot.api.storage.ProducerService;
@@ -53,6 +54,7 @@ public class TopicDistributionApplication {
 
         Thread.currentThread().setName("WebSocket Server main");
         initTopics();
+        initUsers();
         loadUsers();
         loadProducers();
         EventLogger eventLogger = context.getBean(EventLogger.class);
@@ -89,6 +91,18 @@ public class TopicDistributionApplication {
     public void loadProducers(){
         ProducerService producerService = context.getBean(ProducerService.class);
         MemoryStorage.INSTANCE.setProducers(producerService.findAll());
+    }
+
+    public void initUsers() {
+        User u1 = new User("john_smith", "pass1", AccountService.generateToken("john_smith"), "John Smith", "johnsmith@gmail.com", User.UserType.NORMAL, "England");
+        User u2 = new User("anne_hill", "pass2", AccountService.generateToken("anne_hill"), "Anne Hill", "anne_hill@gmail.com", User.UserType.NORMAL, "Poland");
+        User u3 = new User("elli_james", "pass3", AccountService.generateToken("elli_james"), "Elli James", "elli_james@gmail.com", User.UserType.NORMAL, "Poland");
+        User u4 = new User("admin", "admin", AccountService.generateToken("admin"), "admin", "admin@gmail.com", User.UserType.ADMIN, "Romania");
+        UserService userService = context.getBean(UserService.class);
+        userService.create(u1);
+        userService.create(u2);
+        userService.create(u3);
+        userService.create(u4);
     }
 
     public void initTopics(){

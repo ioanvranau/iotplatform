@@ -36,7 +36,8 @@ public class LoginMessage extends ClientMessage {
     @Override
     public String toString() {
         return "LoginMessage{" +
-                "username='" + username + '\'' +
+                "token='" + super.getToken() + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

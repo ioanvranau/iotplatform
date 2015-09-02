@@ -103,8 +103,8 @@ public class JavaTestClientHandler extends ChannelInboundMessageHandlerAdapter<O
         WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-            handleText(ctx.channel(), textFrame.text());
             System.out.println("WebSocket Client received : " + textFrame.text());
+            handleText(ctx.channel(), textFrame.text());
         } else if (frame instanceof PongWebSocketFrame) {
             System.out.println("WebSocket Client received pong");
         } else if (frame instanceof CloseWebSocketFrame) {

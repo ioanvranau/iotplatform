@@ -67,7 +67,8 @@ public class UpdateUserProfileMessage extends ClientMessage {
     @Override
     public String toString() {
         return "UpdateUserProfileMessage{" +
-                "name='" + name + '\'' +
+                "token='" + super.getToken() + '\'' +
+                ", name='" + name + '\'' +
                 ", country='" + country + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
