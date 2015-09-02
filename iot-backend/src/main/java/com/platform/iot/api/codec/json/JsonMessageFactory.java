@@ -78,6 +78,12 @@ public class JsonMessageFactory implements MessageFactory {
         } else if (type.equals(ClientMessage.MESSAGE.USER_PROFILE)) {
             message = new UserProfileMessage(jsonObject);
 
+        }else if (type.equals(ClientMessage.MESSAGE.ADD_DEVICE)) {
+            message = new AddDeviceMessage(jsonObject);
+
+        }  else if (type.equals(ClientMessage.MESSAGE.GET_DEVICE)) {
+            message = new GetDeviceMessage(jsonObject);
+
         } else {
             throw new DecoderException(String.format("Could not identify client " +
                     "message type for input {0}!", jsonObject.toString()));

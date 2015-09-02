@@ -3,13 +3,16 @@ package com.platform.iot.api.bussiness.service;
 import com.platform.iot.api.TopicDistributionApplication;
 import com.platform.iot.api.balancing.ClientVersion;
 import com.platform.iot.api.bussiness.MemoryStorage;
+import com.platform.iot.api.bussiness.model.Device;
 import com.platform.iot.api.bussiness.model.User;
 import com.platform.iot.api.exception.ApplicationException;
 import com.platform.iot.api.exception.ExceptionType;
 import com.platform.iot.api.message.MessageDispatcher;
 import com.platform.iot.api.message.client.*;
+import com.platform.iot.api.message.client.AddDeviceMessage;
 import com.platform.iot.api.message.client.AllUsersMessage;
 import com.platform.iot.api.message.client.DisableAccountMessage;
+import com.platform.iot.api.message.client.GetDeviceMessage;
 import com.platform.iot.api.message.client.LockMessage;
 import com.platform.iot.api.message.client.LogoutMessage;
 import com.platform.iot.api.message.client.MigrationMessage;
@@ -18,6 +21,7 @@ import com.platform.iot.api.message.client.UpdateUserProfileMessage;
 import com.platform.iot.api.message.server.*;
 import com.platform.iot.api.monitoring.MonitoringServiceLocator;
 import com.platform.iot.api.monitoring.ServerMonitor;
+import com.platform.iot.api.storage.DeviceService;
 import com.platform.iot.api.storage.UserService;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -42,7 +46,7 @@ public class AccountService {
 
     public void register(Channel channel, RegisterMessage registerMessage) {
         UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
-        if(userService.findByUsername(registerMessage.getUsername()) != null) {
+        if (userService.findByUsername(registerMessage.getUsername()) != null) {
             ErrorMessage userAlreadyExists = new ErrorMessage(new ApplicationException(ExceptionType.USER_ALREADY_EXISTS));
             channel.write(userAlreadyExists);
             return;
@@ -70,19 +74,18 @@ public class AccountService {
         String username = loginMessage.getUsername(), password = loginMessage.getPassword();
         User user = null;
         Collection<User> users = MemoryStorage.INSTANCE.getUsers().values();
-        for (User aUser : users){
-            if (aUser.getUsername().equals(username) && aUser.getPassword().equals(password)){
+        for (User aUser : users) {
+            if (aUser.getUsername().equals(username) && aUser.getPassword().equals(password)) {
                 user = aUser;
             }
         }
         if (user == null) {
             UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
             user = userService.findByUsername(loginMessage.getUsername());
-            if (user!= null) {
+            if (user != null) {
                 if (!user.getPassword().equals(loginMessage.getPassword())) {
                     user = null;
-                }
-                else {
+                } else {
                     MemoryStorage.INSTANCE.getUsers().put(user.getToken(), user);
                 }
             }
@@ -91,11 +94,11 @@ public class AccountService {
         if (user != null) {
 
             final boolean enabledUser = isUserEnabled(user);
-            if(enabledUser) {
+            if (enabledUser) {
 
                 user.setTopicsChannel(channel);
                 user.setStatus(User.Status.ACTIVE);
-                if(user.getTopics() == null ||  user.getTopics().size() == 0 ) {
+                if (user.getTopics() == null || user.getTopics().size() == 0) {
                     ServiceManager.INSTANCE.getTopicDistributionService().subscribeDefaultTopics(user);
                 }
                 MessageDispatcher.sendMessageToUser(user, new TokenMessage(user));
@@ -103,7 +106,7 @@ public class AccountService {
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                 String formatedDate = sdf.format(user.getDisableddate());  // dt i
-                channel.write(new ErrorMessage(ApplicationException.create(ExceptionType.DISABLED_USER, "Your account is disabled! Please wait until " +formatedDate )));
+                channel.write(new ErrorMessage(ApplicationException.create(ExceptionType.DISABLED_USER, "Your account is disabled! Please wait until " + formatedDate)));
                 logger.error("User Disabled!");
             }
         } else {
@@ -120,10 +123,15 @@ public class AccountService {
 
     public void logout(Channel channel, LogoutMessage logoutMessage) {
         User user = MemoryStorage.INSTANCE.getUserByToken(logoutMessage.getToken());
-        user.setStatus(User.Status.INACTIVE);
+        if (user != null) {
+            user.setStatus(User.Status.INACTIVE);
 //        MemoryStorage.INSTANCE.getUsers().remove(logoutMessage.getToken());
-        channel.write(new com.platform.iot.api.message.server.LogoutMessage());
-        serverMonitor.updateMonitor();
+            channel.write(new com.platform.iot.api.message.server.LogoutMessage());
+            serverMonitor.updateMonitor();
+        }
+        else {
+            logger.error("Could not logout null user");
+        }
     }
 
     public static String generateToken(String seed) {
@@ -162,7 +170,7 @@ public class AccountService {
         UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
         User user = MemoryStorage.INSTANCE.getUserByToken(updateUserProfileMessage.getToken());
 
-        if(user != null) {
+        if (user != null) {
             user.setName(updateUserProfileMessage.getName());
             user.setCountry(updateUserProfileMessage.getCountry());
             user.setEmail(updateUserProfileMessage.getEmail());
@@ -181,7 +189,7 @@ public class AccountService {
         List<User> allUsers = userService.findAll();
         User user = MemoryStorage.INSTANCE.getUserByToken(allUsersMessage.getToken());
 //        if(user.getUsertype() == User.UserType.ADMIN) {
-            MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.AllUsersMessage(allUsers));
+        MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.AllUsersMessage(allUsers));
 //        }
 
     }
@@ -190,7 +198,7 @@ public class AccountService {
         UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
         User user = MemoryStorage.INSTANCE.getUserByToken(disableAccountMessage.getToken());
 
-        if(user != null) {
+        if (user != null) {
             Calendar c = Calendar.getInstance();
             c.setTime(new Date());
             c.add(Calendar.DATE, 7 * disableAccountMessage.getWeeksNumber());  // number of days to add
@@ -205,4 +213,22 @@ public class AccountService {
         }
     }
 
+    public void addDevice(Channel channel, AddDeviceMessage msg) {
+        UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
+        User user = MemoryStorage.INSTANCE.getUserByToken(msg.getToken());
+        Device device = new Device(msg.getParam1(), msg.getParam2(), msg.getParam3(), msg.getParam4(), msg.getParam5());
+        DeviceService deviceService = TopicDistributionApplication.context.getBean(DeviceService.class);
+        deviceService.create(device);
+        MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.AddDeviceMessage(device));
+    }
+
+    public void getDevice(Channel channel, GetDeviceMessage msg) {
+        UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
+        User user = MemoryStorage.INSTANCE.getUserByToken(msg.getToken());
+        DeviceService deviceService = TopicDistributionApplication.context.getBean(DeviceService.class);
+        Device device = deviceService.findById(msg.getDeviceId());
+        MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.GetDeviceMessage(device));
+
+
+    }
 }

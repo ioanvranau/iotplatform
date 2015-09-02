@@ -126,6 +126,16 @@ public class MessageForwarder {
             case ClientMessage.MESSAGE.USER_PROFILE:
                 MessageDispatcher.sendMessageToUser(user, new UserProfileMessage(user));
                 break;
+            case ClientMessage.MESSAGE.ADD_DEVICE: {
+                AddDeviceMessage addDeviceMessage = (AddDeviceMessage) message;
+                ServiceManager.INSTANCE.getAccountService().addDevice(channel, addDeviceMessage);
+            }
+            break;
+            case ClientMessage.MESSAGE.GET_DEVICE: {
+                GetDeviceMessage getDeviceMessage = (GetDeviceMessage) message;
+                ServiceManager.INSTANCE.getAccountService().getDevice(channel, getDeviceMessage);
+            }
+            break;
 
         }
     }

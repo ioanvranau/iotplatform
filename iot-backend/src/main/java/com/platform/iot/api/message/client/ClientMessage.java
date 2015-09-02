@@ -23,6 +23,8 @@ public class ClientMessage extends Message {
         public static final String EMAIL_NOTIFICATION = "emailNotification";
         public static final String DISABLE_ACCOUNT = "disableAccount";
         public static final String USER_PROFILE = "userProfile";
+        public static final String ADD_DEVICE = "addDevice";
+        public static final String GET_DEVICE = "getDevice";
     }
 
     public final static String FIELD_TOKEN = "token";

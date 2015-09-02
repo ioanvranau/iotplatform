@@ -19,5 +19,4 @@ public class StartListeningMessage extends ClientMessage {
         return "StartListeningMessage{" +
                 "token='" + super.getToken() + "\'}";
     }
-
 }

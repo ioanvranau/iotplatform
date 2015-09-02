@@ -135,10 +135,24 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
 //            subscriebeToTopics(channel);
 //            getTopicList(channel);
 //            startListentingToChanges(channel);
-        }
-        else if (type.equals("updateUserProfile")) {
+        } else if (type.equals("updateUserProfile")) {
             getAllUsers(channel);
+        } else if (type.equals("allUsers")) {
+//            lockAccount(channel);
+            addDevice(channel);
+
+        } else if (type.equals("addDevice")) {
+            Long deviceId = ((JSONObject) jsonObject.get("device")).getLong("id");
+           getDevice(channel, deviceId);
+        } else if (type.equals("getDevice")) {
+            logout(channel);
+        } else if (type.equals("lock")) {
+            logout(channel);
         }
+    }
+
+    private void getDevice(Channel channel, Long deviceId) {
+        channel.write(print("{type:'getDevice', token:'" + token + "', deviceId:"+ deviceId + "}"));
     }
 
     private void getTopicList(Channel channel) {
@@ -161,6 +175,18 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
 
     private void getAllUsers(Channel channel) {
         channel.write(print("{type:'allUsers', token:'" + token + "'}"));
+    }
+
+    private void addDevice(Channel channel) {
+        channel.write(print("{type:'addDevice', token:'" + token + "', param1:'param1', param2:'param2', param3:'param3', param4:'param4', param5:'param5'}"));
+    }
+
+    private void lockAccount(Channel channel) {
+        channel.write(print("{type:'lock', token:'" + token + "'}"));
+    }
+
+    private void logout(Channel channel) {
+        channel.write(print("{type:'logout', token:'" + token + "'}"));
     }
 
 
