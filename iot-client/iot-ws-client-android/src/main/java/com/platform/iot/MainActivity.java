@@ -9,9 +9,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.platform.iot.ws.Connection;
+
+import org.java_websocket.client.WebSocketClient;
+
 public class MainActivity extends Activity {
 
+    private static final String HOST = "10.0.2.2";
     private String username = "Default Username";
+    private String password;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,12 +30,28 @@ public class MainActivity extends Activity {
         super.onStart();
         TextView textView = (TextView) findViewById(R.id.text_view);
         textView.setText("Hello world!");
+        Connection.startConnection(HOST);
     }
 
     public void loginUser(View view) {
         this.username = ((TextView) findViewById(R.id.editTextUsername)).getText().toString();
+        this.password= ((TextView) findViewById(R.id.editTextPassword)).getText().toString();
         Intent i = new Intent(MainActivity.this, HomeUserActivity.class);
         i.putExtra("username", username);
-        startActivity(i);
+        i.putExtra("password", password);
+
+        WebSocketClient b = Connection.startConnection(null);
+        if(b != null) {
+            String loginM = "{type:'login', username:'"+username+"', password:'"+password+"'}";
+            b.send(loginM);
+            while(Connection.token == null) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            startActivity(i);
+        }
     }
 }

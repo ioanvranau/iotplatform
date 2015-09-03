@@ -6,8 +6,11 @@ package com.platform.iot;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.platform.iot.ws.Connection;
 
 public class HomeUserActivity extends Activity {
 
@@ -32,6 +35,15 @@ public class HomeUserActivity extends Activity {
     public void fillUsername(View view) {
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
-        ((TextView) findViewById(R.id.filledUsername)).setText(username);
+        TextView deviceDataTextView = (TextView) findViewById(R.id.filledUsername);
+
+        TextView tokenTextView = (TextView) findViewById(R.id.textViewToken);
+        tokenTextView.setText(Connection.token);
+        String deviceData = deviceDataTextView.getText().toString();
+
+        String jsonData = "{type:'addDevice', token:'" + Connection.token + "', param1:'"+deviceData+"', param2:'param2', param3:'param3', param4:'param4', param5:'param5'}";
+        Log.i("jsonData", jsonData);
+        Connection.startConnection(null).send(jsonData);
+//        deviceDataTextView.setText("");
     }
 }

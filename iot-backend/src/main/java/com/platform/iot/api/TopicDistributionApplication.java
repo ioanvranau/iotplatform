@@ -94,7 +94,7 @@ public class TopicDistributionApplication {
     }
 
     public void initUsers() {
-        User u1 = new User("john_smith", "pass1", AccountService.generateToken("john_smith"), "John Smith", "johnsmith@gmail.com", User.UserType.NORMAL, "England");
+        User u1 = new User("a", "b", AccountService.generateToken("john_smith"), "John Smith", "johnsmith@gmail.com", User.UserType.NORMAL, "England");
         User u2 = new User("anne_hill", "pass2", AccountService.generateToken("anne_hill"), "Anne Hill", "anne_hill@gmail.com", User.UserType.NORMAL, "Poland");
         User u3 = new User("elli_james", "pass3", AccountService.generateToken("elli_james"), "Elli James", "elli_james@gmail.com", User.UserType.NORMAL, "Poland");
         User u4 = new User("admin", "admin", AccountService.generateToken("admin"), "admin", "admin@gmail.com", User.UserType.ADMIN, "Romania");
