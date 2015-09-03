@@ -56,6 +56,10 @@ $(document).ready(function (){
 		{
             fillInTopics(msg);
 		}
+        else if(type == 'allDevices')
+        {
+            fillInDevices(msg);
+        }
 		else if(type == 'migrate')
 		{
             alert(type);
@@ -199,7 +203,7 @@ function lock() {
 
 function getAllTopics(){
          var topicsMsg = {
-                type: 'topics',
+                type: 'allDevices',
                 token : getCookie("token")
          };
          console.log("sent -> " + JSON.stringify(topicsMsg));
@@ -363,6 +367,19 @@ function fillInTopics(msg) {
                 initPriceChart(priceChartId, topic.price);
               }
               startListening();
+}
+
+function fillInDevices(msg) {
+    var topics = "";
+    for (var i in msg.devices) {
+        var topic = msg.devices[i];
+        topics += "<tr><td>" + topic.id + "</td><td>" + topic.param1+ "</td>"
+            ;
+
+    }
+    var fieldNameElement = document.getElementById('userTopics');
+    fieldNameElement.innerHTML = topics;
+    startListening();
 }
 
 /////////////////////////////////////////      COOKIE HANDLING        //////////////////////////////////////////////////
