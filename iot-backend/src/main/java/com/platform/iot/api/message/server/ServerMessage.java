@@ -23,6 +23,7 @@ public abstract class ServerMessage extends Message {
         public static final String UPDATE_USER_PROFILE = "updateUserProfile";
         public static final String ALL_USERS = "allUsers";
         public static final String ADD_DEVICE = "addDevice";
+        public static final String ALL_DEVICES = "allDevices";
         public static final String GET_DEVICE = "getDevice";
         public static final String EMAIL_NOTIFICATION = "emailNotification";
         public static final String DISABLE_ACCOUNT = "disableAccount";

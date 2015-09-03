@@ -10,6 +10,7 @@ import com.platform.iot.api.exception.ExceptionType;
 import com.platform.iot.api.message.MessageDispatcher;
 import com.platform.iot.api.message.client.*;
 import com.platform.iot.api.message.client.AddDeviceMessage;
+import com.platform.iot.api.message.client.AllDevicesMessage;
 import com.platform.iot.api.message.client.AllUsersMessage;
 import com.platform.iot.api.message.client.DisableAccountMessage;
 import com.platform.iot.api.message.client.GetDeviceMessage;
@@ -230,5 +231,13 @@ public class AccountService {
         MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.GetDeviceMessage(device));
 
 
+    }
+
+    public void getDevices(Channel channel, AllDevicesMessage msg) {
+        UserService userService = TopicDistributionApplication.context.getBean(UserService.class);
+        User user = MemoryStorage.INSTANCE.getUserByToken(msg.getToken());
+        DeviceService deviceService = TopicDistributionApplication.context.getBean(DeviceService.class);
+        List<Device> devices = deviceService.findAll();
+        MessageDispatcher.sendMessageToUser(user, new com.platform.iot.api.message.server.AllDevicesMessage(devices));
     }
 }

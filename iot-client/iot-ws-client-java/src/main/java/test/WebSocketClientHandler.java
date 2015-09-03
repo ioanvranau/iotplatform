@@ -143,8 +143,11 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
 
         } else if (type.equals("addDevice")) {
             Long deviceId = ((JSONObject) jsonObject.get("device")).getLong("id");
-           getDevice(channel, deviceId);
+            getDevice(channel, deviceId);
         } else if (type.equals("getDevice")) {
+            getAllDevices(channel);
+
+        } else if (type.equals("allDevices")) {
             logout(channel);
         } else if (type.equals("lock")) {
             logout(channel);
@@ -152,7 +155,7 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
     }
 
     private void getDevice(Channel channel, Long deviceId) {
-        channel.write(print("{type:'getDevice', token:'" + token + "', deviceId:"+ deviceId + "}"));
+        channel.write(print("{type:'getDevice', token:'" + token + "', deviceId:" + deviceId + "}"));
     }
 
     private void getTopicList(Channel channel) {
@@ -175,6 +178,10 @@ public class WebSocketClientHandler extends ChannelInboundMessageHandlerAdapter<
 
     private void getAllUsers(Channel channel) {
         channel.write(print("{type:'allUsers', token:'" + token + "'}"));
+    }
+
+    private void getAllDevices(Channel channel) {
+        channel.write(print("{type:'allDevices', token:'" + token + "'}"));
     }
 
     private void addDevice(Channel channel) {

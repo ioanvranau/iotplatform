@@ -25,6 +25,7 @@ public class ClientMessage extends Message {
         public static final String USER_PROFILE = "userProfile";
         public static final String ADD_DEVICE = "addDevice";
         public static final String GET_DEVICE = "getDevice";
+        public static final String ALL_DEVICES = "allDevices";
     }
 
     public final static String FIELD_TOKEN = "token";

@@ -136,6 +136,11 @@ public class MessageForwarder {
                 ServiceManager.INSTANCE.getAccountService().getDevice(channel, getDeviceMessage);
             }
             break;
+            case ClientMessage.MESSAGE.ALL_DEVICES: {
+                AllDevicesMessage allDevicesMessage = (AllDevicesMessage) message;
+                ServiceManager.INSTANCE.getAccountService().getDevices(channel, allDevicesMessage);
+            }
+            break;
 
         }
     }
