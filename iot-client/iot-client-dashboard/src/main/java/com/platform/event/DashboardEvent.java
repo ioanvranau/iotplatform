@@ -1,6 +1,9 @@
 package com.platform.event;
 
 
+import com.platform.domain.Transaction;
+import com.platform.view.DashboardViewType;
+
 import java.util.Collection;
 
 /*
@@ -50,34 +53,34 @@ public abstract class DashboardEvent {
 
     }
 
-//    public static final class TransactionReportEvent {
-//        private final Collection<Transaction> transactions;
-//
-//        public TransactionReportEvent(final Collection<Transaction> transactions) {
-//            this.transactions = transactions;
-//        }
-//
-//        public Collection<Transaction> getTransactions() {
-//            return transactions;
-//        }
-//    }
-//
-//    public static final class PostViewChangeEvent {
-//        private final DashboardViewType view;
-//
-//        public PostViewChangeEvent(final DashboardViewType view) {
-//            this.view = view;
-//        }
-//
-//        public DashboardViewType getView() {
-//            return view;
-//        }
-//    }
-//
-//    public static class CloseOpenWindowsEvent {
-//    }
-//
-//    public static class ProfileUpdatedEvent {
-//    }
+    public static final class TransactionReportEvent {
+        private final Collection<Transaction> transactions;
+
+        public TransactionReportEvent(final Collection<Transaction> transactions) {
+            this.transactions = transactions;
+        }
+
+        public Collection<Transaction> getTransactions() {
+            return transactions;
+        }
+    }
+
+    public static final class PostViewChangeEvent {
+        private final DashboardViewType view;
+
+        public PostViewChangeEvent(final DashboardViewType view) {
+            this.view = view;
+        }
+
+        public DashboardViewType getView() {
+            return view;
+        }
+    }
+
+    public static class CloseOpenWindowsEvent {
+    }
+
+    public static class ProfileUpdatedEvent {
+    }
 
 }

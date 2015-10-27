@@ -1,41 +1,45 @@
 package com.platform;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.google.common.eventbus.Subscribe;
 import com.platform.data.DataProvider;
-import com.platform.data.DummyDataProvider;
+import com.platform.data.dummy.DummyDataProvider;
 import com.platform.domain.User;
 import com.platform.event.DashboardEvent;
 import com.platform.event.DashboardEventBus;
 import com.platform.view.LoginView;
 import com.platform.view.MainView;
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.server.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
+import com.vaadin.server.Responsive;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 import java.util.Locale;
 
-/**
- *
- */
 @Theme("dashboard")
-@Widgetset("com.platform.MyAppWidgetset")
-public class DashboardUI extends UI {
+@Widgetset("com.platform.DashboardWidgetSet")
+@Title("QuickTickets Dashboard")
+@SuppressWarnings("serial")
+public final class DashboardUI extends UI {
 
-    private final DashboardEventBus dashboardEventbus = new DashboardEventBus();
+    /*
+     * This field stores an access to the dummy backend layer. In real
+     * applications you most likely gain access to your beans trough lookup or
+     * injection; and not in the UI but somewhere closer to where they're
+     * actually accessed.
+     */
     private final DataProvider dataProvider = new DummyDataProvider();
+    private final DashboardEventBus dashboardEventbus = new DashboardEventBus();
 
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
-
+    protected void init(final VaadinRequest request) {
         setLocale(Locale.US);
 
         DashboardEventBus.register(this);
@@ -43,20 +47,17 @@ public class DashboardUI extends UI {
         addStyleName(ValoTheme.UI_WITH_MENU);
 
         updateContent();
-//        setContent(new LoginView());
-//        addStyleName("loginview");
 
         // Some views need to be aware of browser resize events so a
         // BrowserResizeEvent gets fired to the event bus on every occasion.
         Page.getCurrent().addBrowserWindowResizeListener(
-                new Page.BrowserWindowResizeListener() {
+                new BrowserWindowResizeListener() {
                     @Override
                     public void browserWindowResized(
-                            final Page.BrowserWindowResizeEvent event) {
+                            final BrowserWindowResizeEvent event) {
                         DashboardEventBus.post(new DashboardEvent.BrowserResizeEvent());
                     }
                 });
-
     }
 
     /**
@@ -78,15 +79,6 @@ public class DashboardUI extends UI {
         }
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = DashboardUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
-    }
-
-    public static DashboardEventBus getDashboardEventbus() {
-        return ((DashboardUI) getCurrent()).dashboardEventbus;
-    }
-
     @Subscribe
     public void userLoginRequested(final DashboardEvent.UserLoginRequestedEvent event) {
         User user = getDataProvider().authenticate(event.getUserName(),
@@ -95,10 +87,30 @@ public class DashboardUI extends UI {
         updateContent();
     }
 
+    @Subscribe
+    public void userLoggedOut(final DashboardEvent.UserLoggedOutEvent event) {
+        // When the user logs out, current VaadinSession gets closed and the
+        // page gets reloaded on the login screen. Do notice the this doesn't
+        // invalidate the current HttpSession.
+        VaadinSession.getCurrent().close();
+        Page.getCurrent().reload();
+    }
+
+    @Subscribe
+    public void closeOpenWindows(final DashboardEvent.CloseOpenWindowsEvent event) {
+        for (Window window : getWindows()) {
+            window.close();
+        }
+    }
+
     /**
      * @return An instance for accessing the (dummy) services layer.
      */
     public static DataProvider getDataProvider() {
         return ((DashboardUI) getCurrent()).dataProvider;
+    }
+
+    public static DashboardEventBus getDashboardEventbus() {
+        return ((DashboardUI) getCurrent()).dashboardEventbus;
     }
 }

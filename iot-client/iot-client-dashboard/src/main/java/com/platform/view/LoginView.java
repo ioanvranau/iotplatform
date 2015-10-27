@@ -23,16 +23,14 @@ public class LoginView extends VerticalLayout {
         setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
         Notification notification = new Notification(
-                "Welcome to Dashboard");
+                "Welcome to Dashboard Demo");
         notification
-                .setDescription("This is the best <b>IoT</b> platform.");
+                .setDescription("<span>This application is not real, it only demonstrates an application built with the <a href=\"https://vaadin.com\">Vaadin framework</a>.</span> <span>No username or password is required, just click the <b>Sign In</b> button to continue.</span>");
         notification.setHtmlContentAllowed(true);
         notification.setStyleName("tray dark small closable login-help");
         notification.setPosition(Position.BOTTOM_CENTER);
         notification.setDelayMsec(20000);
         notification.show(Page.getCurrent());
-
-
     }
 
     private Component buildLoginForm() {
@@ -85,11 +83,11 @@ public class LoginView extends VerticalLayout {
 
         Label welcome = new Label("Welcome");
         welcome.setSizeUndefined();
-        welcome.addStyleName(ValoTheme.LABEL_H1);
+        welcome.addStyleName(ValoTheme.LABEL_H4);
         welcome.addStyleName(ValoTheme.LABEL_COLORED);
         labels.addComponent(welcome);
 
-        Label title = new Label("IoT Dashboard");
+        Label title = new Label("QuickTickets Dashboard");
         title.setSizeUndefined();
         title.addStyleName(ValoTheme.LABEL_H3);
         title.addStyleName(ValoTheme.LABEL_LIGHT);
