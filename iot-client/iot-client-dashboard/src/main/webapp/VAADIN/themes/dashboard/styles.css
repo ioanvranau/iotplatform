@@ -1020,6 +1020,7 @@
 	user-select: text;
 }
 
+/*noinspection CssInvalidPseudoSelector*/
 .v-app input::-ms-clear {
 	display: none;
 }
@@ -1561,13 +1562,13 @@ div.v-layout.v-horizontal.v-widget {
 	}
 	}
 
-.dashboard {
-	@media screen and (max-width: 480px) {
-	.notifications.v-window {
-		right: 13px;
+.dashboard
+		@media screen and (max-width: 480px) {
+		.notifications.v-window {
+			right: 13px;
+		}
 	}
-}
-}
+
 
 .dashboard.v-app, .dashboard.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;

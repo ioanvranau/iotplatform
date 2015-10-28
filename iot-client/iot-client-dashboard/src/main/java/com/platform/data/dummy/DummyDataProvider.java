@@ -364,7 +364,7 @@ public class DummyDataProvider implements DataProvider {
     public User authenticate(String userName, String password) {
         if(!userName.equalsIgnoreCase("admin") && !password.equals("admin")) {
             UiUtils.displayNotification("Invalid username or passoword provided!", "");
-            return null;
+//            return null;
         }
         User user = new User();
         user.setFirstName("Admin");

@@ -2,8 +2,14 @@ package com.platform.view.dashboard;
 
 import com.google.common.eventbus.Subscribe;
 import com.platform.DashboardUI;
+import com.platform.component.AddDeviceWindow;
+import com.platform.component.MovieDetailsWindow;
+import com.platform.component.ProfilePreferencesWindow;
 import com.platform.component.TopTenMoviesTable;
 import com.platform.domain.DashboardNotification;
+import com.platform.domain.Device;
+import com.platform.domain.Movie;
+import com.platform.domain.User;
 import com.platform.event.DashboardEvent;
 import com.platform.event.DashboardEventBus;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
@@ -11,15 +17,16 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Responsive;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.teemu.VaadinIcons;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -128,9 +135,7 @@ public final class DashboardView extends Panel implements View,
         result.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-                getUI().addWindow(
-                        new DashboardEdit(DashboardView.this, titleLabel
-                                .getValue()));
+                        AddDeviceWindow.open(new Device(), false);
             }
         });
         return result;
@@ -141,10 +146,52 @@ public final class DashboardView extends Panel implements View,
         dashboardPanels.addStyleName("dashboard-panels");
         Responsive.makeResponsive(dashboardPanels);
 
+        dashboardPanels.addComponent(buildCatalogView());
         dashboardPanels.addComponent(buildNotes());
         dashboardPanels.addComponent(buildTop10TitlesByRevenue());
 
         return dashboardPanels;
+    }
+
+    private Component buildCatalogView() {
+        CssLayout catalog = new CssLayout();
+        catalog.setCaption("Catalog");
+        catalog.addStyleName("catalog");
+
+        for (final Movie movie : DashboardUI.getDataProvider().getMovies()) {
+            VerticalLayout frame = new VerticalLayout();
+            frame.addStyleName("frame");
+            frame.setWidthUndefined();
+
+            Button device = new Button("Device 1");
+            device.setId(ADD_ID);
+            device.setIcon(FontAwesome.AMBULANCE);
+            device.addStyleName("icon-edit");
+            device.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+            device.setDescription("Add new new IoT device");
+            device.addClickListener(new ClickListener() {
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    AddDeviceWindow.open(new Device(), false);
+                }
+            });
+            frame.addComponent(device);
+
+            Label titleLabel = new Label(movie.getTitle());
+            titleLabel.setWidth(120.0f, Unit.PIXELS);
+            frame.addComponent(titleLabel);
+
+            frame.addLayoutClickListener(new LayoutClickListener() {
+                @Override
+                public void layoutClick(final LayoutClickEvent event) {
+                    if (event.getButton() == MouseEventDetails.MouseButton.LEFT) {
+                        AddDeviceWindow.open(new Device(), false);
+                    }
+                }
+            });
+            catalog.addComponent(frame);
+        }
+        return catalog;
     }
 
     private Component buildNotes() {
