@@ -141,6 +141,18 @@ public abstract class DummyDataGenerator {
         return Arrays.asList(n1, n2);
     }
 
+    static DashboardNotification invalidUsernameOrPasswordNotification(){
+        DashboardNotification n1 = new DashboardNotification();
+        n1.setId(3);
+        n1.setFirstName(randomFirstName());
+        n1.setLastName(randomLastName());
+        n1.setAction("created a new report");
+        n1.setPrettyTime("25 minutes ago");
+        n1.setContent("Ionut Text");
+
+        return n1;
+    }
+
     public static int[] randomSparklineValues(int howMany, int min, int max) {
         int[] values = new int[howMany];
 
