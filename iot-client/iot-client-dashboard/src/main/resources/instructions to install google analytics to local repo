@@ -1,1 +1,0 @@
-mvn install:install-file -Dfile=C:\iot\iotplatform\iot-client\iot-client-dashboard\src\main\resources\googleanalyticstracker-2.1.0.jar -DgroupId=org.vaadin.addons -DartifactId=googleanalyticstracker -Dversion=2.1.0 -Dpackaging=jar

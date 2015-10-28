@@ -19,6 +19,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.teemu.VaadinIcons;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ public final class DashboardView extends Panel implements View,
         DashboardEdit.DashboardEditListener {
 
     public static final String EDIT_ID = "dashboard-edit";
+    public static final String ADD_ID = "dashboard-add";
     public static final String TITLE_ID = "dashboard-title";
 
     private Label titleLabel;
@@ -78,7 +80,8 @@ public final class DashboardView extends Panel implements View,
 
         notificationsButton = buildNotificationsButton();
         Component edit = buildEditButton();
-        HorizontalLayout tools = new HorizontalLayout(notificationsButton, edit);
+        Component add = buildNewDeviceButton();
+        HorizontalLayout tools = new HorizontalLayout(add, notificationsButton, edit);
         tools.setSpacing(true);
         tools.addStyleName("toolbar");
         header.addComponent(tools);
@@ -104,6 +107,24 @@ public final class DashboardView extends Panel implements View,
         result.addStyleName("icon-edit");
         result.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         result.setDescription("Edit Dashboard");
+        result.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                getUI().addWindow(
+                        new DashboardEdit(DashboardView.this, titleLabel
+                                .getValue()));
+            }
+        });
+        return result;
+    }
+
+    private Component buildNewDeviceButton() {
+        Button result = new Button("Add new device");
+        result.setId(ADD_ID);
+        result.setIcon(FontAwesome.PLUS_CIRCLE);
+        result.addStyleName("icon-edit");
+        result.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        result.setDescription("Add new new IoT device");
         result.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
