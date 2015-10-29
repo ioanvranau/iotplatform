@@ -16,7 +16,8 @@
         <module>iot-ws-client-java</module>
         <module>iot-ws-client-android</module>
         <module>iot-ws-client-web</module>
-    <module>iot-client-dashboard</module>
+        <module>iot-client-dashboard-original</module>
+        <module>iot-client-dashboard</module>
   </modules>
     
 </project>
