@@ -1,5 +1,6 @@
 package com.platform.component;
 
+import com.platform.DashboardUI;
 import com.platform.domain.Device;
 import com.platform.event.DashboardEvent;
 import com.platform.event.DashboardEventBus;
@@ -38,8 +39,7 @@ public class AddDeviceWindow extends Window {
     @PropertyId("ip")
     private TextField ipAddressField;
 
-    private AddDeviceWindow(final Device device,
-                            final boolean preferencesTabOpen) {
+    private AddDeviceWindow(final boolean preferencesTabOpen) {
         addStyleName("profile-window");
         setId(ID);
         Responsive.makeResponsive(this);
@@ -73,7 +73,7 @@ public class AddDeviceWindow extends Window {
 
         fieldGroup = new BeanFieldGroup<>(Device.class);
         fieldGroup.bindMemberFields(this);
-        fieldGroup.setItemDataSource(device);
+
     }
 
     private Component buildNewDeviceTab() {
@@ -107,7 +107,6 @@ public class AddDeviceWindow extends Window {
             @Override
             public void buttonClick(ClickEvent event) {
                 try {
-                    fieldGroup.commit();
                     // Updated user should also be persisted to database. But
                     // not in this demo.
                     InetAddress byName = InetAddress.getByName(ipAddressField.getValue());
@@ -117,7 +116,7 @@ public class AddDeviceWindow extends Window {
                     boolean reachableHost = byName.isReachable(timeOutinMillis);
 
                     if(!reachableHost) {
-                        Notification.show("Host is not reachable!",Type.ERROR_MESSAGE);
+                        Notification.show("Host is not reachable!", Type.ERROR_MESSAGE);
                         return;
                     }
                     String loopBackMessage = "";
@@ -125,6 +124,13 @@ public class AddDeviceWindow extends Window {
                     if(loopbackAddress){
                         loopBackMessage = "This is a loopbackAddress!";
                     }
+
+                    Device device = new Device();
+                    device.setIp(hostAddress);
+                    DashboardUI.getDataProvider().addDevice(device);
+
+                    fieldGroup.setItemDataSource(device);
+                    fieldGroup.commit();
 
                     Notification success = new Notification(
                             "Device with IP: "+ hostAddress +" added successfully." + loopBackMessage );
@@ -134,6 +140,7 @@ public class AddDeviceWindow extends Window {
                     success.show(Page.getCurrent());
 
                     DashboardEventBus.post(new DashboardEvent.ProfileUpdatedEvent());
+                    DashboardEventBus.post(new DashboardEvent.UserTestNotification(hostAddress));
                     close();
                 } catch (CommitException e) {
                     Notification.show("Error while adding device",
@@ -154,9 +161,9 @@ public class AddDeviceWindow extends Window {
         return footer;
     }
 
-    public static void open(final Device device, final boolean preferencesTabActive) {
+    public static void open(final boolean preferencesTabActive) {
         DashboardEventBus.post(new DashboardEvent.CloseOpenWindowsEvent());
-        Window w = new AddDeviceWindow(device, preferencesTabActive);
+        Window w = new AddDeviceWindow(preferencesTabActive);
         UI.getCurrent().addWindow(w);
         w.focus();
     }

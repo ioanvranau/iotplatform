@@ -17,6 +17,7 @@ import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -68,15 +69,15 @@ public final class DashboardUI extends UI {
     private void updateContent() {
         User user = (User) VaadinSession.getCurrent().getAttribute(
                 User.class.getName());
-//        if (user != null && "admin".equals(user.getRole())) {
+        if (user != null && "admin".equals(user.getRole())) {
             // Authenticated user
             setContent(new MainView());
             removeStyleName("loginview");
             getNavigator().navigateTo(getNavigator().getState());
-//        } else {
-//            setContent(new LoginView());
-//            addStyleName("loginview");
-//        }
+        } else {
+            setContent(new LoginView());
+            addStyleName("loginview");
+        }
     }
 
     @Subscribe

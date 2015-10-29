@@ -50,10 +50,16 @@ public interface DataProvider {
      */
     double getTotalSum();
 
+    void addNotification();
+
     /**
      * @return A Collection of movies.
      */
     Collection<Movie> getMovies();
+
+    Collection<Device> getDevices();
+
+    public boolean addDevice(Device device);
 
     /**
      * @param movieId

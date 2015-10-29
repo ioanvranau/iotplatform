@@ -2,8 +2,10 @@ package com.platform.data.dummy;
 
 import com.platform.domain.DashboardNotification;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class DummyDataGenerator {
 
@@ -138,7 +140,11 @@ public abstract class DummyDataGenerator {
         n2.setPrettyTime("2 days ago");
         n2.setContent(randomText(10));
 
-        return Arrays.asList(n1, n2);
+        List<DashboardNotification> list = new ArrayList<>();
+        list.add(n1);
+        list.add(n2);
+
+        return list;
     }
 
     static DashboardNotification invalidUsernameOrPasswordNotification(){

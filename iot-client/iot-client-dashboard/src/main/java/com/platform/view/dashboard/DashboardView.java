@@ -2,10 +2,7 @@ package com.platform.view.dashboard;
 
 import com.google.common.eventbus.Subscribe;
 import com.platform.DashboardUI;
-import com.platform.component.AddDeviceWindow;
-import com.platform.component.MovieDetailsWindow;
-import com.platform.component.ProfilePreferencesWindow;
-import com.platform.component.TopTenMoviesTable;
+import com.platform.component.*;
 import com.platform.domain.DashboardNotification;
 import com.platform.domain.Device;
 import com.platform.domain.Movie;
@@ -19,6 +16,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.*;
@@ -26,10 +24,15 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.renderers.NumberRenderer;
+import com.vaadin.ui.renderers.ProgressBarRenderer;
+import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
+import elemental.json.JsonValue;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Random;
 
 @SuppressWarnings("serial")
 public final class DashboardView extends Panel implements View,
@@ -73,6 +76,7 @@ public final class DashboardView extends Panel implements View,
             }
         });
     }
+
     private Component buildHeader() {
         HorizontalLayout header = new HorizontalLayout();
         header.addStyleName("viewheader");
@@ -126,19 +130,19 @@ public final class DashboardView extends Panel implements View,
     }
 
     private Component buildNewDeviceButton() {
-        Button result = new Button("Add new device");
-        result.setId(ADD_ID);
-        result.setIcon(FontAwesome.PLUS_CIRCLE);
-        result.addStyleName("icon-edit");
-        result.addStyleName(ValoTheme.BUTTON_FRIENDLY);
-        result.setDescription("Add new new IoT device");
-        result.addClickListener(new ClickListener() {
+        Button addNewDeviceButton = new Button("Add new device");
+        addNewDeviceButton.setId(ADD_ID);
+        addNewDeviceButton.setIcon(FontAwesome.PLUS_CIRCLE);
+        addNewDeviceButton.addStyleName("icon-edit");
+        addNewDeviceButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        addNewDeviceButton.setDescription("Add new new IoT device");
+        addNewDeviceButton.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-                        AddDeviceWindow.open(new Device(), false);
+                AddDeviceWindow.open(false);
             }
         });
-        return result;
+        return addNewDeviceButton;
     }
 
     private Component buildContent() {
@@ -146,11 +150,18 @@ public final class DashboardView extends Panel implements View,
         dashboardPanels.addStyleName("dashboard-panels");
         Responsive.makeResponsive(dashboardPanels);
 
-        dashboardPanels.addComponent(buildCatalogView());
-        dashboardPanels.addComponent(buildNotes());
-        dashboardPanels.addComponent(buildTop10TitlesByRevenue());
-
         return dashboardPanels;
+    }
+
+    @Subscribe
+    public void userTestNotification(final DashboardEvent.UserTestNotification event) {
+        // When the user logs out, current VaadinSession gets closed and the
+        // page gets reloaded on the login screen. Do notice the this doesn't
+        // invalidate the current HttpSession.
+        Notification notification = new Notification(event.getText());
+        notification.show(Page.getCurrent());
+
+        dashboardPanels.addComponent(new DeviceComponent(new Device(event.getText())));
     }
 
     private Component buildCatalogView() {
@@ -158,26 +169,27 @@ public final class DashboardView extends Panel implements View,
         catalog.setCaption("Catalog");
         catalog.addStyleName("catalog");
 
-        for (final Movie movie : DashboardUI.getDataProvider().getMovies()) {
+
+        for (final Device device : DashboardUI.getDataProvider().getDevices()) {
             VerticalLayout frame = new VerticalLayout();
             frame.addStyleName("frame");
             frame.setWidthUndefined();
 
-            Button device = new Button("Device 1");
-            device.setId(ADD_ID);
-            device.setIcon(FontAwesome.AMBULANCE);
-            device.addStyleName("icon-edit");
-            device.addStyleName(ValoTheme.BUTTON_FRIENDLY);
-            device.setDescription("Add new new IoT device");
-            device.addClickListener(new ClickListener() {
+            Button deviceButton = new Button("Device 1");
+            deviceButton.setId(ADD_ID);
+            deviceButton.setIcon(FontAwesome.AMBULANCE);
+            deviceButton.addStyleName("icon-edit");
+            deviceButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+            deviceButton.setDescription("Add new new IoT device");
+            deviceButton.addClickListener(new ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    AddDeviceWindow.open(new Device(), false);
+                    AddDeviceWindow.open(false);
                 }
             });
-            frame.addComponent(device);
+            frame.addComponent(deviceButton);
 
-            Label titleLabel = new Label(movie.getTitle());
+            Label titleLabel = new Label(device.getIp());
             titleLabel.setWidth(120.0f, Unit.PIXELS);
             frame.addComponent(titleLabel);
 
@@ -185,7 +197,7 @@ public final class DashboardView extends Panel implements View,
                 @Override
                 public void layoutClick(final LayoutClickEvent event) {
                     if (event.getButton() == MouseEventDetails.MouseButton.LEFT) {
-                        AddDeviceWindow.open(new Device(), false);
+                        AddDeviceWindow.open(false);
                     }
                 }
             });
@@ -352,12 +364,12 @@ public final class DashboardView extends Panel implements View,
     }
 
     private void toggleMaximized(final Component panel, final boolean maximized) {
-        for (Iterator<Component> it = root.iterator(); it.hasNext();) {
+        for (Iterator<Component> it = root.iterator(); it.hasNext(); ) {
             it.next().setVisible(!maximized);
         }
         dashboardPanels.setVisible(true);
 
-        for (Iterator<Component> it = dashboardPanels.iterator(); it.hasNext();) {
+        for (Iterator<Component> it = dashboardPanels.iterator(); it.hasNext(); ) {
             Component c = it.next();
             c.setVisible(!maximized);
         }
@@ -402,5 +414,4 @@ public final class DashboardView extends Panel implements View,
             setDescription(description);
         }
     }
-
 }

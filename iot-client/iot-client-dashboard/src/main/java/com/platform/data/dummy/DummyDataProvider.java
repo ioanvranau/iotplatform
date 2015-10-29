@@ -32,6 +32,7 @@ public class DummyDataProvider implements DataProvider {
     private static Multimap<String, String> countryToCities;
     private static Date lastDataUpdate;
     private static Collection<Movie> movies;
+    private static Collection<Device> devices;
     private static Multimap<Long, Transaction> transactions;
     private static Multimap<Long, MovieRevenue> revenue;
 
@@ -39,6 +40,17 @@ public class DummyDataProvider implements DataProvider {
 
     private final Collection<DashboardNotification> notifications = DummyDataGenerator
             .randomNotifications();
+
+    @Override
+    public void addNotification() {
+        DashboardNotification dashboardNotification = new DashboardNotification();
+        dashboardNotification.setId(1);
+        dashboardNotification.setFirstName("first name");
+        dashboardNotification.setLastName("last name");
+        dashboardNotification.setAction("created a new report");
+        dashboardNotification.setPrettyTime("25 minutes ago");
+        notifications.add(dashboardNotification);
+    }
 
     /**
      * Initialize the data for this application.
@@ -57,6 +69,7 @@ public class DummyDataProvider implements DataProvider {
         movies = loadMoviesData();
         transactions = generateTransactionsData();
         revenue = countRevenues();
+        devices = new ArrayList<>();
     }
 
     /**
@@ -67,6 +80,16 @@ public class DummyDataProvider implements DataProvider {
     @Override
     public Collection<Movie> getMovies() {
         return Collections.unmodifiableCollection(movies);
+    }
+
+    @Override
+    public Collection<Device> getDevices() {
+        return Collections.unmodifiableCollection(devices);
+    }
+
+    @Override
+    public boolean addDevice(Device device) {
+        return devices.add(device);
     }
 
     /**

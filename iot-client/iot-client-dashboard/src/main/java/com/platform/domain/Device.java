@@ -7,6 +7,12 @@ import java.net.InetAddress;
  */
 public class Device {
 
+    public Device() {}
+
+    public Device(String ip) {
+        this.ip = ip;
+    }
+
     public String ip = "127.0.0.1";
 
     public String getIp() {

@@ -37,6 +37,18 @@ public abstract class DashboardEvent {
 
     }
 
+    public static class UserTestNotification {
+        private final String text;
+
+        public UserTestNotification(final String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+    }
+
     public static class NotificationsCountUpdatedEvent {
     }
 
