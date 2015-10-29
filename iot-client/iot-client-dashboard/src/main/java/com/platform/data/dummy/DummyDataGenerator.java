@@ -126,19 +126,19 @@ public abstract class DummyDataGenerator {
     static Collection<DashboardNotification> randomNotifications() {
         DashboardNotification n1 = new DashboardNotification();
         n1.setId(1);
-        n1.setFirstName(randomFirstName());
-        n1.setLastName(randomLastName());
+        n1.setFirstName("first name");
+        n1.setLastName("last name");
         n1.setAction("created a new report");
         n1.setPrettyTime("25 minutes ago");
-        n1.setContent(randomText(18));
+        n1.setContent("Text");
 
         DashboardNotification n2 = new DashboardNotification();
         n2.setId(2);
-        n2.setFirstName(randomFirstName());
-        n2.setLastName(randomLastName());
+        n2.setFirstName("first name");
+        n2.setLastName("last name");
         n2.setAction("changed the schedule");
         n2.setPrettyTime("2 days ago");
-        n2.setContent(randomText(10));
+        n1.setContent("Text");
 
         List<DashboardNotification> list = new ArrayList<>();
         list.add(n1);
@@ -147,30 +147,4 @@ public abstract class DummyDataGenerator {
         return list;
     }
 
-    static DashboardNotification invalidUsernameOrPasswordNotification(){
-        DashboardNotification n1 = new DashboardNotification();
-        n1.setId(3);
-        n1.setFirstName(randomFirstName());
-        n1.setLastName(randomLastName());
-        n1.setAction("created a new report");
-        n1.setPrettyTime("25 minutes ago");
-        n1.setContent("Ionut Text");
-
-        return n1;
-    }
-
-    public static int[] randomSparklineValues(int howMany, int min, int max) {
-        int[] values = new int[howMany];
-
-        for (int i = 0; i < howMany; i++) {
-            values[i] = (int) (min + (Math.random() * (max - min)));
-        }
-
-        return values;
-    }
-
-//    public static Color[] chartColors = new Color[] {
-//            new SolidColor("#3090F0"), new SolidColor("#18DDBB"),
-//            new SolidColor("#98DF58"), new SolidColor("#F9DD51"),
-//            new SolidColor("#F09042"), new SolidColor("#EC6464") };
 }
