@@ -96,13 +96,6 @@ public class ProfilePreferencesWindow extends Window {
         root.setSpacing(true);
         root.setMargin(true);
         root.setSizeFull();
-
-        Label message = new Label("Not implemented in this demo");
-        message.setSizeUndefined();
-        message.addStyleName(ValoTheme.LABEL_LIGHT);
-        root.addComponent(message);
-        root.setComponentAlignment(message, Alignment.MIDDLE_CENTER);
-
         return root;
     }
 
@@ -123,10 +116,10 @@ public class ProfilePreferencesWindow extends Window {
         profilePic.setWidth(100.0f, Unit.PIXELS);
         pic.addComponent(profilePic);
 
-        Button upload = new Button("Change…", new ClickListener() {
+        Button upload = new Button("Change", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                Notification.show("Not implemented in this demo");
+                Notification.show("Not implemented yet");
             }
         });
         upload.addStyleName(ValoTheme.BUTTON_TINY);

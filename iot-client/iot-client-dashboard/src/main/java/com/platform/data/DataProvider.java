@@ -9,24 +9,6 @@ import java.util.Date;
  * QuickTickets Dashboard backend API.
  */
 public interface DataProvider {
-    /**
-     * @param count
-     *            Number of transactions to fetch.
-     * @return A Collection of most recent transactions.
-     */
-    Collection<Transaction> getRecentTransactions(int count);
-
-    /**
-     * @param id
-     *            Movie identifier.
-     * @return A Collection of daily revenues for the movie.
-     */
-    Collection<MovieRevenue> getDailyRevenuesByMovie(long id);
-
-    /**
-     * @return Total revenues for each listed movie.
-     */
-    Collection<MovieRevenue> getTotalMovieRevenues();
 
     /**
      * @param userName
@@ -45,34 +27,11 @@ public interface DataProvider {
      */
     Collection<DashboardNotification> getNotifications();
 
-    /**
-     * @return The total summed up revenue of sold movie tickets
-     */
-    double getTotalSum();
-
     void addNotification();
 
-    /**
-     * @return A Collection of movies.
-     */
-    Collection<Movie> getMovies();
 
     Collection<Device> getDevices();
 
     public boolean addDevice(Device device);
 
-    /**
-     * @param movieId
-     *            Movie's identifier
-     * @return A Movie instance for the given id.
-     */
-    Movie getMovie(long movieId);
-
-    /**
-     * @param startDate
-     * @param endDate
-     * @return A Collection of Transactions between the given start and end
-     *         dates.
-     */
-    Collection<Transaction> getTransactionsBetween(Date startDate, Date endDate);
 }

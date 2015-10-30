@@ -2,11 +2,10 @@ package com.platform.view.dashboard;
 
 import com.google.common.eventbus.Subscribe;
 import com.platform.DashboardUI;
-import com.platform.component.*;
+import com.platform.component.AddDeviceWindow;
+import com.platform.component.DeviceComponent;
 import com.platform.domain.DashboardNotification;
 import com.platform.domain.Device;
-import com.platform.domain.Movie;
-import com.platform.domain.User;
 import com.platform.event.DashboardEvent;
 import com.platform.event.DashboardEventBus;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
@@ -14,25 +13,15 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
-import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.MenuBar.Command;
-import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.renderers.NumberRenderer;
-import com.vaadin.ui.renderers.ProgressBarRenderer;
-import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
-import elemental.json.JsonValue;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Random;
 
 @SuppressWarnings("serial")
 public final class DashboardView extends Panel implements View,
@@ -234,24 +223,6 @@ public final class DashboardView extends Panel implements View,
         titleLabel.setValue(name);
     }
 
-    private void toggleMaximized(final Component panel, final boolean maximized) {
-        for (Iterator<Component> it = root.iterator(); it.hasNext(); ) {
-            it.next().setVisible(!maximized);
-        }
-        dashboardPanels.setVisible(true);
-
-        for (Iterator<Component> it = dashboardPanels.iterator(); it.hasNext(); ) {
-            Component c = it.next();
-            c.setVisible(!maximized);
-        }
-
-        if (maximized) {
-            panel.setVisible(true);
-            panel.addStyleName("max");
-        } else {
-            panel.removeStyleName("max");
-        }
-    }
 
     public static final class NotificationsButton extends Button {
         private static final String STYLE_UNREAD = "unread";
