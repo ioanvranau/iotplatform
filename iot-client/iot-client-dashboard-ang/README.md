@@ -1,3 +1,19 @@
+The angular-seed project comes pre-configured with a local development web server.  It is a node.js
+tool called [http-server][http-server].  You can install http-server globally:
+
+```
+npm install -g live-server
+```
+
+Then you can start your own development web server to serve static files from a folder by running:
+
+```
+cd app
+
+bower update
+
+
+
 # Angular Material-Start
 
 This Material **start*** project is a *seed* for AngularJS Material applications. The project contains a sample AngularJS application and is pre-configured to install the Angular framework and a bunch of development and testing tools for instant web development gratification.
