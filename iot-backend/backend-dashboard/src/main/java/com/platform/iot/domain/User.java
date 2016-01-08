@@ -6,25 +6,45 @@ package com.platform.iot.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class User {
 
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String avatar;
+    private String content;
+    private final long id;
 
-    public String getFirstName() {
-        return firstName;
+    public User(long id, String name, String avatar, String content) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+        this.content = content;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public long getId() {
+        return id;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

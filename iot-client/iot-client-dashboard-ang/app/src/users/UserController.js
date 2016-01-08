@@ -1,10 +1,15 @@
 (function(){
 
   angular
-       .module('users')
+       .module('users', [ 'ngResource' ] )
        .controller('UserController', [
-          'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
-          UserController
+          'userService',
+           '$mdSidenav',
+           '$mdBottomSheet',
+           '$log',
+           '$q',
+           '$http',
+           UserController
        ]);
 
   /**
@@ -14,7 +19,7 @@
    * @param avatarsService
    * @constructor
    */
-  function UserController( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
+  function UserController( userService, $mdSidenav, $mdBottomSheet, $log, $q, $http) {
     var self = this;
 
     self.selected     = null;
@@ -26,7 +31,7 @@
     // Load all registered users
 
     userService
-          .loadAllUsers()
+          .loadAllUsers($http).getData()
           .then( function( users ) {
             self.users    = [].concat(users);
             self.selected = users[0];

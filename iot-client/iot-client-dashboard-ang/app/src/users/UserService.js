@@ -48,9 +48,16 @@
 
     // Promise-based API
     return {
-      loadAllUsers : function() {
-        // Simulate async nature of real remote calls
-        return $q.when(users);
+      loadAllUsers : function($http) {
+          var getData = function() {
+
+              return $http({method:"GET", url:"http://localhost:9090/users"}).then(function(result){
+                  return result.data;
+              });
+          };
+          return { getData: getData };
+
+          //return $q.when(users);
       }
     };
   }
