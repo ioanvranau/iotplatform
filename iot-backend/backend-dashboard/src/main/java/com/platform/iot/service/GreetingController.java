@@ -24,7 +24,6 @@ public class GreetingController {
                 String.format(template, name));
     }
 
-    @CrossOrigin(origins = "http://localhost:9090", allowedHeaders = "Access-Control-Allow-Origin")
     @RequestMapping("/users")
     public @ResponseBody
     List<User> users(@RequestParam(value = "name", defaultValue = "World") String name) {
