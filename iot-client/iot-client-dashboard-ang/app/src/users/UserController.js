@@ -1,16 +1,8 @@
 (function(){
 
   angular
-       .module('users', [ 'ngResource' ] )
-       .controller('UserController', [
-          'userService',
-           '$mdSidenav',
-           '$mdBottomSheet',
-           '$log',
-           '$q',
-           '$http',
-           UserController
-       ]);
+       .module('users')
+       .controller('UserController', UserController);
 
   /**
    * Main Controller for the Angular Material Starter App
@@ -19,6 +11,9 @@
    * @param avatarsService
    * @constructor
    */
+
+  UserController.$inject = ['userService','$mdSidenav', '$mdBottomSheet', '$log', '$q', '$http'];
+
   function UserController( userService, $mdSidenav, $mdBottomSheet, $log, $q, $http) {
     var self = this;
 
@@ -29,7 +24,6 @@
     self.showContactOptions  = showContactOptions;
 
     // Load all registered users
-
     userService
           .loadAllUsers($http).getData()
           .then( function( users ) {
