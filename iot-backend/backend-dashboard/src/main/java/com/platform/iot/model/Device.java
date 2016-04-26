@@ -8,17 +8,21 @@ import java.net.InetAddress;
 
 public class Device {
 
-    private final long id;
+    private long id;
     private String name;
     private String avatar;
     private String content;
-    private InetAddress inetAddress;
+    private String ip;
 
-    public Device(long id, String name, String avatar, String content) {
+    public Device(long id, String name, String avatar, String content, String ip) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.content = content;
+        this.ip = ip;
+    }
+
+    public Device() {
     }
 
     public long getId() {
@@ -49,11 +53,23 @@ public class Device {
         this.content = content;
     }
 
-    public InetAddress getInetAddress() {
-        return inetAddress;
+
+    public String getIp() {
+        return ip;
     }
 
-    public void setInetAddress(InetAddress inetAddress) {
-        this.inetAddress = inetAddress;
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    @Override
+    public String toString() {
+        return "Device{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", content='" + content + '\'' +
+                ", ip=" + ip +
+                '}';
     }
 }

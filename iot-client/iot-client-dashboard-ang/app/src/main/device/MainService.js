@@ -20,6 +20,18 @@
           });
         };
         return { getData: getData };
+      },
+
+      addNewDevice : function($http, device) {
+        var getData = function() {
+
+          var url = apiUrl + "devices";
+          return $http.post(url, device).then(function(result){
+            
+            return result.data;
+          });
+        };
+        return { getData: getData };
       }
     };
   }

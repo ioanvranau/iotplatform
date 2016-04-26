@@ -19,6 +19,7 @@
             var vm = this;
 
             vm.devices = [];
+            vm.currDevice = '';
             vm.toggleList = toggleDevicesList;
             vm.showContactOptions = showContactOptions;
             vm.showAddNewDevicePrompt = showAddNewDevicePrompt;
@@ -103,6 +104,13 @@
                 });
 
                 function DialogController($scope, $mdDialog) {
+
+                    $scope.device = {
+                        ip: 'localhost'
+                    };
+
+
+
                     $scope.hide = function () {
                         $mdDialog.hide();
                     };
@@ -111,6 +119,14 @@
                     };
                     $scope.answer = function () {
                         $mdDialog.hide();
+                        var currDevice = this.device;
+
+                        var device = JSON.stringify({ip:currDevice.ip});
+                        mainService
+                            .addNewDevice($http, device).getData()
+                            .then(function (data) {
+                                $log.debug("Success!" + data.ip)
+                            });
                     };
                 }
 
