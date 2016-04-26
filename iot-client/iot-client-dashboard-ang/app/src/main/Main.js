@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  // Prepare the 'users' module for subsequent registration of controllers and delegates
-  angular.module('main', [
+  // Prepare the 'main' module for subsequent registration of controllers and delegates
+  angular.module('app', [
     'ngMaterial']);
 })();

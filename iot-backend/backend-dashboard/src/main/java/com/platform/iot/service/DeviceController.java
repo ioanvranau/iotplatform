@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.platform.iot.domain.Greeting;
-import com.platform.iot.domain.Device;
+import com.platform.iot.model.Greeting;
+import com.platform.iot.model.Device;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

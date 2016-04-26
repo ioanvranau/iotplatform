@@ -15,11 +15,6 @@ html, body {
   margin: 16px;
   width: 36px;
 }
-.cards-content {
-  height: 300px;
-  overflow-scrolling: auto;
-}
-
 
 md-toolbar h1 {
   margin: auto;
@@ -52,6 +47,10 @@ md-list .md-button {
   padding-left: 40px;
   padding-right: 40px;
   padding-top: 5px;
+}
+
+.add-new-device-button-class {
+  background-color: #106cc8 !important;
 }
 
 #content .md-button.contact {

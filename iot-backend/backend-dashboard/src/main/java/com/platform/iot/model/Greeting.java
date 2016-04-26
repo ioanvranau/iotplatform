@@ -1,4 +1,4 @@
-package com.platform.iot.domain;
+package com.platform.iot.model;
 
 /**
  * Created by ioan.vranau on 1/4/2016.

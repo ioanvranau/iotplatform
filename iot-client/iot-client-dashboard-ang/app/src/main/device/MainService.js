@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-      .module('main')
+      .module('app')
       .service('mainService', mainService);
 
   mainService.$inject = ['$q', 'apiUrl'];
