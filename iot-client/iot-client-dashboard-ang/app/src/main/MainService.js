@@ -2,27 +2,24 @@
   'use strict';
 
   angular
-      .module('users')
-      .service('userService', userService);
+      .module('main')
+      .service('mainService', mainService);
 
-  userService.$inject = ['$q', 'apiUrl'];
+  mainService.$inject = ['$q', 'apiUrl'];
 
   /* @ngInject */
-  function userService($q, apiUrl) {
+  function mainService($q, apiUrl) {
     // Promise-based API
     return {
-      loadAllUsers : function($http) {
+      loadAllDevices : function($http) {
         var getData = function() {
 
-          //var apiUrl = "http://localhost:9090/";
-          var url = apiUrl + "users";
+          var url = apiUrl + "devices";
           return $http.get(url).then(function(result){
             return result.data;
           });
         };
         return { getData: getData };
-
-        //return $q.when(users);
       }
     };
   }

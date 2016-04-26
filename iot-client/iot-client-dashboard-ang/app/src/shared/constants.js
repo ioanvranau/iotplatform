@@ -2,6 +2,6 @@
     'use strict';
 
     angular
-        .module('users')
+        .module('main')
         .constant('apiUrl', "http://localhost:9090/");
 })();

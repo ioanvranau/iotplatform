@@ -4,16 +4,14 @@ package com.platform.iot.domain;
  * Created by ioan.vranau on 12/15/2015.
  */
 
-import javax.xml.bind.annotation.XmlRootElement;
+public class Device {
 
-public class User {
-
+    private final long id;
     private String name;
     private String avatar;
     private String content;
-    private final long id;
 
-    public User(long id, String name, String avatar, String content) {
+    public Device(long id, String name, String avatar, String content) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;

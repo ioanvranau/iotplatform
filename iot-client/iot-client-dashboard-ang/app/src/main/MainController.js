@@ -1,8 +1,8 @@
 (function(){
 
   angular
-       .module('users')
-       .controller('UserController', UserController);
+       .module('main')
+       .controller('MainController', MainController);
 
   /**
    * Main Controller for the Angular Material Starter App
@@ -12,23 +12,20 @@
    * @constructor
    */
 
-  UserController.$inject = ['userService','$mdSidenav', '$mdBottomSheet', '$log', '$q', '$http'];
+  MainController.$inject = ['mainService','$mdSidenav', '$mdBottomSheet', '$log', '$q', '$http'];
 
-  function UserController( userService, $mdSidenav, $mdBottomSheet, $log, $q, $http) {
-    var self = this;
+  function MainController( mainService, $mdSidenav, $mdBottomSheet, $log, $q, $http) {
+    var vm = this;
 
-    self.selected     = null;
-    self.users        = [ ];
-    self.selectUser   = selectUser;
-    self.toggleList   = toggleUsersList;
-    self.showContactOptions  = showContactOptions;
+    vm.devices        = [ ];
+    vm.toggleList   = toggleDevicesList;
+    vm.showContactOptions  = showContactOptions;
 
-    // Load all registered users
-    userService
-          .loadAllUsers($http).getData()
-          .then( function( users ) {
-            self.users    = [].concat(users);
-            self.selected = users[0];
+    // Load all registered devices
+    mainService
+          .loadAllDevices($http).getData()
+          .then( function( devices ) {
+            vm.devices    = [].concat(devices);
           });
 
     // *********************************
@@ -39,7 +36,7 @@
      * First hide the bottomsheet IF visible, then
      * hide or Show the 'left' sideNav area
      */
-    function toggleUsersList() {
+    function toggleDevicesList() {
       var pending = $mdBottomSheet.hide() || $q.when(true);
 
       pending.then(function(){
@@ -48,23 +45,13 @@
     }
 
     /**
-     * Select the current avatars
-     * @param menuId
-     */
-    function selectUser ( user ) {
-      self.selected = angular.isNumber(user) ? $scope.users[user] : user;
-      self.toggleList();
-    }
-
-    /**
      * Show the bottom sheet
      */
-    function showContactOptions($event) {
-        var user = self.selected;
+    function showContactOptions($event, device) {
 
         return $mdBottomSheet.show({
           parent: angular.element(document.getElementById('content')),
-          templateUrl: './src/users/view/contactSheet.html',
+          templateUrl: './src/main/view/contactSheet.html',
           controller: [ '$mdBottomSheet', ContactPanelController],
           controllerAs: "cp",
           bindToController : true,
@@ -77,7 +64,7 @@
          * Bottom Sheet controller for the Avatar Actions
          */
         function ContactPanelController( $mdBottomSheet ) {
-          this.user = user;
+          this.device = device;
           this.actions = [
             { name: 'Phone'       , icon: 'phone'       , icon_url: 'assets/svg/phone.svg'},
             { name: 'Twitter'     , icon: 'twitter'     , icon_url: 'assets/svg/twitter.svg'},
