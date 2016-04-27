@@ -103,10 +103,11 @@
                     $log.debug(dialogCanceled);
                 });
 
-                function DialogController($scope, $mdDialog) {
+                function DialogController($scope, $mdDialog, $compile) {
 
                     $scope.device = {
-                        ip: 'localhost'
+                        ip: 'localhost',
+                        name: 'Phone'
                     };
 
 
@@ -119,13 +120,12 @@
                     };
                     $scope.answer = function () {
                         $mdDialog.hide();
-                        var currDevice = this.device;
-
-                        var device = JSON.stringify({ip:currDevice.ip});
                         mainService
-                            .addNewDevice($http, device).getData()
+                            .addNewDevice($http, this.device).getData()
                             .then(function (data) {
-                                $log.debug("Success!" + data.ip)
+                                $log.debug("Success!" + data.ip + " " + data.name);
+
+                                angular.element(document.getElementById('md-cards-devices-content-id')).append($compile('<md-button> Material')($scope))
                             });
                     };
                 }

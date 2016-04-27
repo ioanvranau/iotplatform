@@ -23,10 +23,11 @@
       },
 
       addNewDevice : function($http, device) {
+        var jsonDevice = JSON.stringify({ip:device.ip, name:device.name});
         var getData = function() {
 
           var url = apiUrl + "devices";
-          return $http.post(url, device).then(function(result){
+          return $http.post(url, jsonDevice).then(function(result){
             
             return result.data;
           });
