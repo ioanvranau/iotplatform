@@ -9,7 +9,7 @@ import com.platform.iot.model.Device;
 public class DeviceBuilder {
 
     public static Device build(String ip, String name) {
-        String avatar = "";
+        String avatar = "error";
         if(name == null) {
             name = "No name proviced!";
         }

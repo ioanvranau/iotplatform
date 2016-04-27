@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,13 +41,18 @@ public class DeviceController {
     @RequestMapping(value = "/devices", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<Device> addDevice(@RequestBody Device device) {
+    ResponseEntity<Device> addDevice(@RequestBody Device device) throws UnknownHostException {
         //
         // Code processing the input parameters
         //
         if (device != null) {
             System.out.println(device);
-            Device addedDevice = deviceService.addDevice(device.getIp(), device.getName());
+            Device addedDevice;
+            try {
+                addedDevice = deviceService.addDevice(device.getIp(), device.getName());
+            } catch (UnknownHostException e) {
+                throw  e;
+            }
             return new ResponseEntity<Device>(addedDevice, HttpStatus.OK);
         } else {
             return new ResponseEntity<Device>(DeviceBuilder.build("no ip provided", "no name provided"), HttpStatus.BAD_REQUEST);

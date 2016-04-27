@@ -17,6 +17,10 @@
     function MainController(mainService, $mdSidenav, $mdBottomSheet, $log, $q, $http, $scope, $mdDialog, $mdMedia) {
 
         var vm = this;
+        $scope.errors = {};
+        var myScopeErrors = $scope.errors;
+        var mainDialog = $mdDialog;
+
 
         vm.devices = [];
         vm.currDevice = '';
@@ -105,7 +109,6 @@
 
             function DialogController($scope, $mdDialog, $compile, $templateCache) {
 
-                var ctrl = this;
                 $scope.device = {
                     ip: 'localhost',
                     name: 'Phone'
@@ -126,7 +129,21 @@
                             $log.debug("Success!" + data.ip + " " + data.name);
                             var template = '<md-card md-theme-watch>' + $templateCache.get('./src/main/view/deviceCardContent.tmpl.html') + '</md-card>';
                             $scope.device = data;
-                            angular.element(document.getElementById('md-cards-devices-content-id')).append($compile(template)($scope))
+                            angular.element(document.getElementById('md-cards-devices-content-id')).append($compile(template)($scope));
+                            myScopeErrors.api = false;
+                        }, function(err) {
+                            // Here is where we can catch the errors and start using the response.
+                            myScopeErrors.api = err.data.exception;
+                            mainDialog.show(
+                                mainDialog.alert()
+                                    .parent(angular.element(document.querySelector('#popupContainer')))
+                                    .clickOutsideToClose(true)
+                                    .title('Device ' + err.data.message + ' cannot be added. Please check again the provided ip!')
+                                    .textContent(err.data.exception)
+                                    .ariaLabel('Alert Dialog Demo')
+                                    .ok('OK')
+                            );
+
                         });
                 };
             }
