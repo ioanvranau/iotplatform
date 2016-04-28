@@ -3,6 +3,7 @@ package com.platform.iot.service;
 import com.google.common.collect.Lists;
 import com.platform.iot.dao.DeviceRepository;
 import com.platform.iot.model.Device;
+import com.platform.iot.utils.IotException;
 import com.platform.iot.utils.IpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class DeviceService {
         if (device != null) {
             String deviceIp = device.getIp();
             if (deviceIp == null || StringUtils.isEmpty(deviceIp.trim())) {
-                throw new RuntimeException("No device ip provided!");
+                throw new IotException("No device ip provided!");
             }
 
             IpValidator.validate(deviceIp);
@@ -41,7 +42,7 @@ public class DeviceService {
             }
             return deviceRepository.save(device);
         } else {
-            throw new RuntimeException("No device provided!");
+            throw new IotException("No device provided!");
         }
     }
 }
