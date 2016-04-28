@@ -3,12 +3,11 @@ package com.platform.iot.service;
 import com.google.common.collect.Lists;
 import com.platform.iot.dao.DeviceRepository;
 import com.platform.iot.model.Device;
-import com.platform.iot.utils.DeviceBuilder;
 import com.platform.iot.utils.IpValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -26,11 +25,16 @@ public class DeviceService {
     }
 
     public Device addDevice(Device device) throws UnknownHostException {
-        if(device != null) {
-            IpValidator.validate(device.getIp());
+        if (device != null) {
+            String deviceIp = device.getIp();
+            if (deviceIp == null || StringUtils.isEmpty(deviceIp.trim())) {
+                throw new RuntimeException("No device ip provided!");
+            }
+
+            IpValidator.validate(deviceIp);
 
             String deviceName = device.getName();
-            if(device.getName() != null && (deviceName.toLowerCase().contains("phone"))) {
+            if (device.getName() != null && (deviceName.toLowerCase().contains("phone"))) {
                 device.setAvatar("smartphone");
             } else {
                 device.setAvatar("error");
