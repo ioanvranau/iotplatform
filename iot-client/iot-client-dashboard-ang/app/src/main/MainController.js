@@ -107,7 +107,7 @@
                 $log.debug(dialogCanceled);
             });
 
-            function DialogController($scope, $mdDialog, $compile, $templateCache) {
+            function DialogController($scope, $mdDialog, $compile, $templateRequest) {
 
                 $scope.device = {
                     ip: 'localhost',
@@ -123,11 +123,19 @@
                 };
                 $scope.answer = function () {
                     $mdDialog.hide();
+                    var template = "";
+                    $templateRequest("./src/main/view/deviceCardContent.tmpl.html", false).then(function(html){
+                        // Convert the html to an actual DOM node
+                        template = '<md-card md-theme-watch>' +  html  + '</md-card>';
+                        //angular.element.append(template);
+                        //$compile(template)($scope);
+                    });
                     mainService
                         .addNewDevice($http, this.device).getData()
                         .then(function (data) {
                             $log.debug("Success!" + data.ip + " " + data.name);
-                            var template = '<md-card md-theme-watch>' + $templateCache.get('./src/main/view/deviceCardContent.tmpl.html') + '</md-card>';
+                            //var template = + $templateCache.get('./src/main/view/deviceCardContent.tmpl.html');
+
                             $scope.device = data;
                             angular.element(document.getElementById('md-cards-devices-content-id')).append($compile(template)($scope));
                             myScopeErrors.api = false;

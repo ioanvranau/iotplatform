@@ -5,31 +5,24 @@ package com.platform.iot.controller;
  */
 
 import com.platform.iot.model.Device;
-import com.platform.iot.model.Greeting;
 import com.platform.iot.service.DeviceService;
 import com.platform.iot.utils.DeviceBuilder;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class DeviceController {
 
-    DeviceService deviceService = new DeviceService();
+    private Logger log = Logger.getLogger(DeviceController.class);
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
-    }
+    @Autowired
+    private DeviceService deviceService;
 
     @RequestMapping("/devices")
     public
@@ -46,12 +39,12 @@ public class DeviceController {
         // Code processing the input parameters
         //
         if (device != null) {
-            System.out.println(device);
+            log.info(device);
             Device addedDevice;
             try {
-                addedDevice = deviceService.addDevice(device.getIp(), device.getName());
+                addedDevice = deviceService.addDevice(device);
             } catch (UnknownHostException e) {
-                throw  e;
+                throw e;
             }
             return new ResponseEntity<Device>(addedDevice, HttpStatus.OK);
         } else {

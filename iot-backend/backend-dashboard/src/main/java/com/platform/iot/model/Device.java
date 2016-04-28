@@ -1,13 +1,19 @@
 package com.platform.iot.model;
 
-import java.net.InetAddress;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by ioan.vranau on 12/15/2015.
  */
 
+@Entity
 public class Device {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private String avatar;
