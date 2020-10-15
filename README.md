@@ -1,2 +1,2 @@
-# iotplatform platform
+# iotplatform
 An IoT platform 
